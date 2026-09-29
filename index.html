@@ -86,6 +86,16 @@ button.primary,button.secondary,.btn{border:0;border-radius:8px;padding:12px 18p
         <button id="signupBtn" type="button" class="primary auth-btn">Create Account</button>
         <div class="auth-switch">Already have an account? <button type="button" onclick="showAuthPanel('login')">Login</button></div>
       </div>
+
+      <div id="verifyPanel" class="hidden">
+        <h2>Verify Your Email</h2>
+        <p style="font-size:14px;line-height:1.5;margin-top:0">We sent a 6-digit verification code to <b id="verifyEmailText">your email</b>.</p>
+        <label>6-Digit Verification Code</label>
+        <input id="verificationCode" type="text" inputmode="numeric" autocomplete="one-time-code" maxlength="6" placeholder="123456" style="text-align:center;letter-spacing:5px;font-size:22px;font-weight:700">
+        <button id="verifyBtn" type="button" class="primary auth-btn">Verify Email</button>
+        <button id="resendBtn" type="button" class="secondary auth-btn">Resend Code</button>
+        <div class="auth-switch"><button type="button" onclick="showAuthPanel('login')">Back to Login</button></div>
+      </div>
       <div id="authMessage" class="auth-message"></div>
     </div>
   </div>
@@ -254,6 +264,7 @@ function saveEvaluations(data){localStorage.setItem(userStorageKey(EVALUATIONS_B
 function showAuthPanel(panel){
  document.getElementById('loginPanel').classList.toggle('hidden',panel!=='login');
  document.getElementById('signupPanel').classList.toggle('hidden',panel!=='signup');
+ document.getElementById('verifyPanel').classList.toggle('hidden',panel!=='verify');
  clearAuthMessage();
 }
 function showAuthMessage(msg,ok=false){const el=document.getElementById('authMessage');el.textContent=msg;el.className='auth-message show '+(ok?'ok':'error')}
@@ -271,6 +282,8 @@ async function loginTeacher(){
  setAuthBusy('loginBtn',false,'Login');
 }
 
+let pendingVerificationEmail='';
+
 async function createTeacherAccount(){
  const name=document.getElementById('signupName').value.trim();
  const email=document.getElementById('signupEmail').value.trim();
@@ -283,9 +296,45 @@ async function createTeacherAccount(){
  setAuthBusy('signupBtn',true,'Create Account');
  const {data,error}=await supabaseClient.auth.signUp({email,password,options:{data:{full_name:name}}});
  if(error){showAuthMessage(error.message);setAuthBusy('signupBtn',false,'Create Account');return}
- if(data.session){showAuthMessage('Account created successfully. You are now logged in.',true)}
- else showAuthMessage('Account created. Please check your email and confirm your email address before logging in.',true);
+ if(data.session){
+   showAuthMessage('Account created successfully. You are now logged in.',true);
+ } else {
+   pendingVerificationEmail=email;
+   document.getElementById('verifyEmailText').textContent=email;
+   showAuthPanel('verify');
+   showAuthMessage('Your 6-digit verification code was sent to your email.',true);
+ }
  setAuthBusy('signupBtn',false,'Create Account');
+}
+
+async function verifyEmailCode(){
+ const email=pendingVerificationEmail||document.getElementById('signupEmail').value.trim();
+ const token=document.getElementById('verificationCode').value.trim();
+ if(!email)return showAuthMessage('Please enter the email used to create the account.');
+ if(!/^\d{6}$/.test(token))return showAuthMessage('Please enter the 6-digit verification code.');
+ setAuthBusy('verifyBtn',true,'Verify Email');
+ const {data,error}=await supabaseClient.auth.verifyOtp({email,token,type:'signup'});
+ if(error){showAuthMessage(error.message);setAuthBusy('verifyBtn',false,'Verify Email');return}
+ pendingVerificationEmail='';
+ document.getElementById('verificationCode').value='';
+ if(data.session){
+   showAuthMessage('Email verified successfully. Welcome to Teacher Danyeal!',true);
+ } else {
+   showAuthPanel('login');
+   document.getElementById('loginEmail').value=email;
+   showAuthMessage('Email verified successfully. You can now log in.',true);
+ }
+ setAuthBusy('verifyBtn',false,'Verify Email');
+}
+
+async function resendVerificationCode(){
+ const email=pendingVerificationEmail||document.getElementById('signupEmail').value.trim();
+ if(!email)return showAuthMessage('No verification email is available. Please create the account again.');
+ setAuthBusy('resendBtn',true,'Resend Code');
+ const {error}=await supabaseClient.auth.resend({type:'signup',email});
+ if(error)showAuthMessage(error.message);
+ else showAuthMessage('A new 6-digit verification code has been sent to your email.',true);
+ setAuthBusy('resendBtn',false,'Resend Code');
 }
 
 async function logoutTeacher(){await supabaseClient.auth.signOut()}
@@ -316,8 +365,12 @@ async function initAuth(){
 
 document.getElementById('loginBtn').addEventListener('click',loginTeacher);
 document.getElementById('signupBtn').addEventListener('click',createTeacherAccount);
+document.getElementById('verifyBtn').addEventListener('click',verifyEmailCode);
+document.getElementById('resendBtn').addEventListener('click',resendVerificationCode);
 document.getElementById('loginPassword').addEventListener('keydown',e=>{if(e.key==='Enter')loginTeacher()});
 document.getElementById('signupConfirm').addEventListener('keydown',e=>{if(e.key==='Enter')createTeacherAccount()});
+document.getElementById('verificationCode').addEventListener('input',e=>{e.target.value=e.target.value.replace(/\D/g,'').slice(0,6)});
+document.getElementById('verificationCode').addEventListener('keydown',e=>{if(e.key==='Enter')verifyEmailCode()});
 
 function showPage(page){
  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
