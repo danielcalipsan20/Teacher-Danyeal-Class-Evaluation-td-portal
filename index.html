@@ -7,323 +7,1183 @@
 
 <style>
 *{box-sizing:border-box}
-body{margin:0;font-family:Arial,Helvetica,sans-serif;background:#f2f4f7;color:#111}
-.app{max-width:1100px;margin:20px auto;padding:15px}
-.card{background:#fff;border-radius:12px;box-shadow:0 4px 18px rgba(0,0,0,.12);overflow:hidden}
-.topbar{background:#00e5e5;padding:14px 18px;text-align:center;font-size:22px;font-weight:700}
-.nav{display:flex;gap:8px;padding:12px 15px;background:#fff;border-bottom:1px solid #ddd;flex-wrap:wrap}
-.nav button{border:0;border-radius:8px;padding:10px 18px;font-weight:700;cursor:pointer;background:#eee;font-size:14px}
-.nav button.active{background:#00d9d9}
-.page{display:none;padding:18px}
-.page.active{display:block}
-.form-wrap{padding:0}
-.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-label{display:block;font-weight:700;margin-bottom:6px}
-input,textarea,select{width:100%;border:1px solid #bbb;border-radius:7px;padding:10px;font-size:15px;background:#fff}
-input[readonly]{background:#f4f4f4}
-textarea{min-height:105px;resize:vertical}
-.section{margin-top:16px;border:1px solid #aaa;border-radius:7px;overflow:hidden}
-.section-title{background:#00e5e5;padding:7px 10px;text-align:center;font-weight:700}
-.section-body{padding:12px}
-.score-box{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.rating{background:#ffff00;padding:7px;font-weight:700;text-align:center;margin-top:8px;border-radius:5px}
-.stars{font-size:25px;letter-spacing:2px;color:#111;white-space:nowrap}
-.stars button{border:0;background:none;cursor:pointer;font-size:25px;padding:0 1px}
-.performance{display:grid;grid-template-columns:1fr 1fr;gap:0;border:1px solid #aaa;border-top:0}
-.perf-item{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:7px 9px;border-top:1px solid #aaa}
-.perf-item:nth-child(odd){border-right:1px solid #aaa}
-.comment-box{background:#f7f7f7;border:1px dashed #999;min-height:150px;padding:12px;line-height:1.5;white-space:pre-wrap}
-.buttons{display:flex;gap:10px;margin-top:18px;flex-wrap:wrap}
-button.primary,button.secondary,.btn{border:0;border-radius:8px;padding:12px 18px;font-size:15px;font-weight:700;cursor:pointer}
-.primary{background:#00d9d9}
-.secondary{background:#ddd}
-.danger{background:#ffd7d7}
-.status{margin-top:12px;padding:10px;border-radius:7px;display:none}
-.status.show{display:block}
-.status.ok{background:#dff6df}
-.status.error{background:#ffe1e1}
-.small{font-size:12px;color:#666;margin-top:5px}
-.dashboard-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:18px}
-.stat{border:1px solid #aaa;border-radius:9px;padding:16px;background:#fafafa}
-.stat b{font-size:28px;display:block;margin-top:5px}
-.panel{border:1px solid #aaa;border-radius:9px;overflow:hidden;margin-top:15px}
-.panel-title{background:#00e5e5;padding:10px;font-weight:700}
-.panel-body{padding:14px}
-.add-student-grid{display:grid;grid-template-columns:1fr 1fr 1fr auto;gap:10px;align-items:end}
-.table-wrap{overflow-x:auto}
-.record-table{width:100%;border-collapse:collapse;font-size:14px}
-.record-table th,.record-table td{border:1px solid #aaa;padding:9px;text-align:left}
-.record-table th{background:#f1f1f1}
-.empty{padding:18px;text-align:center;color:#666}
-.student-list{display:grid;gap:8px}
-.student-row{position:relative;display:flex;justify-content:space-between;align-items:center;border:1px solid #ccc;border-radius:8px;padding:10px 12px;gap:10px}
-.student-info b{display:block}
-.student-info span{font-size:12px;color:#666}
-.student-actions{position:relative;margin-left:auto}
-.dots-btn{width:38px;height:38px;border:0;background:transparent;border-radius:8px;cursor:pointer;font-size:24px;line-height:1;font-weight:700;padding:0}
-.dots-btn:hover{background:#eee}
-.student-menu{position:absolute;right:44px;top:50%;transform:translateY(-50%);min-width:130px;background:#fff;border:1px solid #ccc;border-radius:8px;box-shadow:0 6px 18px rgba(0,0,0,.15);padding:5px;z-index:50;display:none}
-.student-menu.show{display:block}
-.student-menu button{display:block;width:100%;border:0;background:#fff;text-align:left;padding:9px 11px;border-radius:6px;cursor:pointer;font-size:14px;font-weight:600}
-.student-menu button:hover{background:#f1f1f1}
-.student-menu .delete-option{color:#b00020}
 
-.modal-backdrop{position:fixed;inset:0;background:rgba(0,0,0,.45);display:none;align-items:center;justify-content:center;padding:18px;z-index:100}
-.modal-backdrop.show{display:flex}
-.modal{width:100%;max-width:460px;background:#fff;border-radius:12px;box-shadow:0 10px 35px rgba(0,0,0,.25);padding:20px}
-.modal h3{margin:0 0 8px}
-.modal p{margin:8px 0 14px;line-height:1.45}
-.modal-actions{display:flex;justify-content:flex-end;gap:8px;margin-top:16px;flex-wrap:wrap}
-.modal-actions button{border:0;border-radius:8px;padding:10px 16px;font-weight:700;cursor:pointer}
-.modal-cancel{background:#ddd}
-.modal-save{background:#00d9d9}
-.modal-delete{background:#d9534f;color:#fff}
-.modal-error{display:none;margin-top:10px;padding:9px;border-radius:7px;background:#ffe1e1;color:#8a0000;font-size:13px}
-.modal-error.show{display:block}
+body{
+  margin:0;
+  font-family:Arial,Helvetica,sans-serif;
+  background:#f2f4f7;
+  color:#111;
+}
 
-.auth-screen{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px;background:#f2f4f7}
-.auth-card{width:100%;max-width:430px;background:#fff;border-radius:14px;box-shadow:0 8px 30px rgba(0,0,0,.14);overflow:hidden}
-.auth-header{background:#00e5e5;padding:22px 20px;text-align:center}
-.brand-logo{width:58px;height:58px;margin:0 auto 8px;border-radius:15px;background:#111;color:#00e5e5;display:flex;align-items:center;justify-content:center;font-size:25px;font-weight:800;letter-spacing:-1px;box-shadow:0 3px 10px rgba(0,0,0,.14)}
-.auth-header h1{margin:0;font-size:21px}
-.auth-header p{margin:5px 0 0;font-size:14px;font-weight:600}
-.auth-body{padding:22px}
-.auth-body h2{margin:0 0 15px}
-.auth-body label{margin-top:10px}
-.auth-body input{margin-bottom:2px}
-.auth-btn{width:100%;margin-top:15px}
-.auth-switch{margin-top:14px;text-align:center;font-size:14px}
-.auth-switch button{border:0;background:none;color:#007b83;font-weight:700;cursor:pointer}
-.auth-message{display:none;margin-top:12px;padding:10px;border-radius:7px;font-size:13px;line-height:1.4}
-.auth-message.show{display:block}
-.auth-message.ok{background:#dff6df}
-.auth-message.error{background:#ffe1e1;color:#8a0000}
-.userbar{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:8px 15px;background:#f7ffff;border-bottom:1px solid #ddd;font-size:13px}
-.logout-btn{border:0;border-radius:7px;padding:7px 12px;background:#ddd;font-weight:700;cursor:pointer}
-.hidden{display:none!important}
+.app{
+  max-width:1100px;
+  margin:20px auto;
+  padding:15px;
+}
+
+.card{
+  background:#fff;
+  border-radius:12px;
+  box-shadow:0 4px 18px rgba(0,0,0,.12);
+  overflow:hidden;
+}
+
+.topbar{
+  background:#00e5e5;
+  padding:14px 18px;
+  text-align:center;
+  font-size:22px;
+  font-weight:700;
+}
+
+.nav{
+  display:flex;
+  gap:8px;
+  padding:12px 15px;
+  background:#fff;
+  border-bottom:1px solid #ddd;
+  flex-wrap:wrap;
+}
+
+.nav button{
+  border:0;
+  border-radius:8px;
+  padding:10px 18px;
+  font-weight:700;
+  cursor:pointer;
+  background:#eee;
+  font-size:14px;
+}
+
+.nav button.active{
+  background:#00d9d9;
+}
+
+.page{
+  display:none;
+  padding:18px;
+}
+
+.page.active{
+  display:block;
+}
+
+.grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:12px;
+}
+
+label{
+  display:block;
+  font-weight:700;
+  margin-bottom:6px;
+}
+
+input,textarea,select{
+  width:100%;
+  border:1px solid #bbb;
+  border-radius:7px;
+  padding:10px;
+  font-size:15px;
+  background:#fff;
+}
+
+input[readonly]{
+  background:#f4f4f4;
+}
+
+textarea{
+  min-height:105px;
+  resize:vertical;
+}
+
+.section{
+  margin-top:16px;
+  border:1px solid #aaa;
+  border-radius:7px;
+  overflow:hidden;
+}
+
+.section-title{
+  background:#00e5e5;
+  padding:7px 10px;
+  text-align:center;
+  font-weight:700;
+}
+
+.section-body{
+  padding:12px;
+}
+
+.score-box{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px;
+}
+
+.rating{
+  background:#ffff00;
+  padding:7px;
+  font-weight:700;
+  text-align:center;
+  margin-top:8px;
+  border-radius:5px;
+}
+
+.stars{
+  font-size:25px;
+  letter-spacing:2px;
+  color:#111;
+  white-space:nowrap;
+}
+
+.stars button{
+  border:0;
+  background:none;
+  cursor:pointer;
+  font-size:25px;
+  padding:0 1px;
+}
+
+.performance{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:0;
+  border:1px solid #aaa;
+  border-top:0;
+}
+
+.perf-item{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:8px;
+  padding:7px 9px;
+  border-top:1px solid #aaa;
+}
+
+.perf-item:nth-child(odd){
+  border-right:1px solid #aaa;
+}
+
+.comment-box{
+  background:#f7f7f7;
+  border:1px dashed #999;
+  min-height:150px;
+  padding:12px;
+  line-height:1.5;
+  white-space:pre-wrap;
+}
+
+.buttons{
+  display:flex;
+  gap:10px;
+  margin-top:18px;
+  flex-wrap:wrap;
+}
+
+button.primary,
+button.secondary,
+.btn{
+  border:0;
+  border-radius:8px;
+  padding:12px 18px;
+  font-size:15px;
+  font-weight:700;
+  cursor:pointer;
+}
+
+.primary{
+  background:#00d9d9;
+}
+
+.secondary{
+  background:#ddd;
+}
+
+.status{
+  margin-top:12px;
+  padding:10px;
+  border-radius:7px;
+  display:none;
+}
+
+.status.show{
+  display:block;
+}
+
+.status.ok{
+  background:#dff6df;
+}
+
+.status.error{
+  background:#ffe1e1;
+}
+
+.small{
+  font-size:12px;
+  color:#666;
+  margin-top:5px;
+}
+
+.dashboard-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:12px;
+  margin-bottom:18px;
+}
+
+.stat{
+  border:1px solid #aaa;
+  border-radius:9px;
+  padding:16px;
+  background:#fafafa;
+}
+
+.stat b{
+  font-size:28px;
+  display:block;
+  margin-top:5px;
+}
+
+.panel{
+  border:1px solid #aaa;
+  border-radius:9px;
+  overflow:hidden;
+  margin-top:15px;
+}
+
+.panel-title{
+  background:#00e5e5;
+  padding:10px;
+  font-weight:700;
+}
+
+.panel-body{
+  padding:14px;
+}
+
+.add-student-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr 1fr auto;
+  gap:10px;
+  align-items:end;
+}
+
+.table-wrap{
+  overflow-x:auto;
+}
+
+.record-table{
+  width:100%;
+  border-collapse:collapse;
+  font-size:14px;
+}
+
+.record-table th,
+.record-table td{
+  border:1px solid #aaa;
+  padding:9px;
+  text-align:left;
+}
+
+.record-table th{
+  background:#f1f1f1;
+}
+
+.empty{
+  padding:18px;
+  text-align:center;
+  color:#666;
+}
+
+.student-list{
+  display:grid;
+  gap:8px;
+}
+
+.student-row{
+  position:relative;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  border:1px solid #ccc;
+  border-radius:8px;
+  padding:10px 12px;
+  gap:10px;
+}
+
+.student-info b{
+  display:block;
+}
+
+.student-info span{
+  font-size:12px;
+  color:#666;
+}
+
+.student-actions{
+  position:relative;
+  margin-left:auto;
+}
+
+.dots-btn{
+  width:38px;
+  height:38px;
+  border:0;
+  background:transparent;
+  border-radius:8px;
+  cursor:pointer;
+  font-size:24px;
+  line-height:1;
+  font-weight:700;
+  padding:0;
+}
+
+.dots-btn:hover{
+  background:#eee;
+}
+
+.student-menu{
+  position:absolute;
+  right:44px;
+  top:50%;
+  transform:translateY(-50%);
+  min-width:130px;
+  background:#fff;
+  border:1px solid #ccc;
+  border-radius:8px;
+  box-shadow:0 6px 18px rgba(0,0,0,.15);
+  padding:5px;
+  z-index:50;
+  display:none;
+}
+
+.student-menu.show{
+  display:block;
+}
+
+.student-menu button{
+  display:block;
+  width:100%;
+  border:0;
+  background:#fff;
+  text-align:left;
+  padding:9px 11px;
+  border-radius:6px;
+  cursor:pointer;
+  font-size:14px;
+  font-weight:600;
+}
+
+.student-menu button:hover{
+  background:#f1f1f1;
+}
+
+.student-menu .delete-option{
+  color:#b00020;
+}
+
+.modal-backdrop{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.45);
+  display:none;
+  align-items:center;
+  justify-content:center;
+  padding:18px;
+  z-index:100;
+}
+
+.modal-backdrop.show{
+  display:flex;
+}
+
+.modal{
+  width:100%;
+  max-width:460px;
+  background:#fff;
+  border-radius:12px;
+  box-shadow:0 10px 35px rgba(0,0,0,.25);
+  padding:20px;
+}
+
+.modal h3{
+  margin:0 0 8px;
+}
+
+.modal p{
+  margin:8px 0 14px;
+  line-height:1.45;
+}
+
+.modal-actions{
+  display:flex;
+  justify-content:flex-end;
+  gap:8px;
+  margin-top:16px;
+  flex-wrap:wrap;
+}
+
+.modal-actions button{
+  border:0;
+  border-radius:8px;
+  padding:10px 16px;
+  font-weight:700;
+  cursor:pointer;
+}
+
+.modal-cancel{
+  background:#ddd;
+}
+
+.modal-save{
+  background:#00d9d9;
+}
+
+.modal-delete{
+  background:#d9534f;
+  color:#fff;
+}
+
+.modal-error{
+  display:none;
+  margin-top:10px;
+  padding:9px;
+  border-radius:7px;
+  background:#ffe1e1;
+  color:#8a0000;
+  font-size:13px;
+}
+
+.modal-error.show{
+  display:block;
+}
+
+/* AUTH */
+
+.auth-screen{
+  min-height:100vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:20px;
+  background:#f2f4f7;
+}
+
+.auth-card{
+  width:100%;
+  max-width:430px;
+  background:#fff;
+  border-radius:14px;
+  box-shadow:0 8px 30px rgba(0,0,0,.14);
+  overflow:hidden;
+}
+
+.auth-header{
+  background:#00e5e5;
+  padding:22px 20px;
+  text-align:center;
+}
+
+.brand-logo{
+  width:58px;
+  height:58px;
+  margin:0 auto 8px;
+  border-radius:15px;
+  background:#111;
+  color:#00e5e5;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:25px;
+  font-weight:800;
+  letter-spacing:-1px;
+  box-shadow:0 3px 10px rgba(0,0,0,.14);
+}
+
+.auth-header h1{
+  margin:0;
+  font-size:21px;
+}
+
+.auth-header p{
+  margin:5px 0 0;
+  font-size:14px;
+  font-weight:600;
+}
+
+.auth-body{
+  padding:22px;
+}
+
+.auth-body h2{
+  margin:0 0 15px;
+}
+
+.auth-body label{
+  margin-top:10px;
+}
+
+.auth-body input{
+  margin-bottom:2px;
+}
+
+.auth-btn{
+  width:100%;
+  margin-top:15px;
+}
+
+.auth-switch{
+  margin-top:14px;
+  text-align:center;
+  font-size:14px;
+}
+
+.auth-switch button{
+  border:0;
+  background:none;
+  color:#007b83;
+  font-weight:700;
+  cursor:pointer;
+}
+
+.auth-message{
+  display:none;
+  margin-top:12px;
+  padding:10px;
+  border-radius:7px;
+  font-size:13px;
+  line-height:1.4;
+}
+
+.auth-message.show{
+  display:block;
+}
+
+.auth-message.ok{
+  background:#dff6df;
+}
+
+.auth-message.error{
+  background:#ffe1e1;
+  color:#8a0000;
+}
+
+/* PASSWORD */
+
+.password-wrap{
+  position:relative;
+  width:100%;
+}
+
+.password-wrap input{
+  padding-right:50px;
+}
+
+.password-toggle{
+  position:absolute;
+  right:7px;
+  top:50%;
+  transform:translateY(-50%);
+  border:0;
+  background:transparent;
+  cursor:pointer;
+  font-size:18px;
+  padding:6px 8px;
+  border-radius:6px;
+}
+
+.password-toggle:hover{
+  background:#eee;
+}
+
+.forgot-password-wrap{
+  text-align:right;
+  margin-top:8px;
+}
+
+.forgot-password-btn{
+  border:0;
+  background:none;
+  color:#007b83;
+  font-size:13px;
+  font-weight:700;
+  cursor:pointer;
+  padding:0;
+}
+
+.forgot-password-btn:hover{
+  text-decoration:underline;
+}
+
+.userbar{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:10px;
+  padding:8px 15px;
+  background:#f7ffff;
+  border-bottom:1px solid #ddd;
+  font-size:13px;
+}
+
+.logout-btn{
+  border:0;
+  border-radius:7px;
+  padding:7px 12px;
+  background:#ddd;
+  font-weight:700;
+  cursor:pointer;
+}
+
+.hidden{
+  display:none!important;
+}
 
 @media(max-width:800px){
-.grid,.score-box,.performance,.dashboard-grid{grid-template-columns:1fr}
-.perf-item:nth-child(odd){border-right:0}
-.add-student-grid{grid-template-columns:1fr}
-.nav button{flex:1;min-width:120px}
-.student-row{align-items:flex-start;flex-direction:column}
+
+  .grid,
+  .score-box,
+  .performance,
+  .dashboard-grid{
+    grid-template-columns:1fr;
+  }
+
+  .perf-item:nth-child(odd){
+    border-right:0;
+  }
+
+  .add-student-grid{
+    grid-template-columns:1fr;
+  }
+
+  .nav button{
+    flex:1;
+    min-width:120px;
+  }
+
+  .student-row{
+    align-items:flex-start;
+    flex-direction:column;
+  }
 }
 
 @media print{
-.nav,.buttons,.small,.status,#dashboardPage,#recordsPage{display:none!important}
-.page{display:block!important}
-.app{margin:0;padding:0}
-.card{box-shadow:none}
+
+  .nav,
+  .buttons,
+  .small,
+  .status,
+  #dashboardPage,
+  #recordsPage{
+    display:none!important;
+  }
+
+  .page{
+    display:block!important;
+  }
+
+  .app{
+    margin:0;
+    padding:0;
+  }
+
+  .card{
+    box-shadow:none;
+  }
 }
 </style>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 </head>
 
 <body>
 
-<!-- =========================
+<!-- =====================================================
      AUTH SCREEN
-========================= -->
+===================================================== -->
+
 <div id="authScreen" class="auth-screen">
-  <div class="auth-card">
 
-    <div class="auth-header">
-      <div class="brand-logo">TD</div>
-      <h1>TD-TeacherDanyeal</h1>
-      <p>Teacher Evaluation Portal</p>
-    </div>
+<div class="auth-card">
 
-    <div class="auth-body">
+<div class="auth-header">
 
-      <!-- LOGIN -->
-      <div id="loginPanel">
-        <h2>Login</h2>
+<div class="brand-logo">
+TD
+</div>
 
-        <label>Email</label>
-        <input
-          id="loginEmail"
-          type="email"
-          placeholder="teacher@email.com"
-          autocomplete="email"
-        >
+<h1>
+TD-TeacherDanyeal
+</h1>
 
-        <label>Password</label>
-        <input
-          id="loginPassword"
-          type="password"
-          placeholder="Password"
-          autocomplete="current-password"
-        >
+<p>
+Teacher Evaluation Portal
+</p>
 
-        <button
-          id="loginBtn"
-          type="button"
-          class="primary auth-btn"
-        >
-          Login
-        </button>
-
-        <div class="auth-switch">
-          Don't have an account?
-          <button type="button" onclick="showAuthPanel('signup')">
-            Create Account
-          </button>
-        </div>
-      </div>
-
-
-      <!-- CREATE ACCOUNT -->
-      <div id="signupPanel" class="hidden">
-
-        <h2>Create Account</h2>
-
-        <label>Teacher Name</label>
-        <input
-          id="signupName"
-          placeholder="Your name"
-          autocomplete="name"
-        >
-
-        <label>Email</label>
-        <input
-          id="signupEmail"
-          type="email"
-          placeholder="teacher@email.com"
-          autocomplete="email"
-        >
-
-        <label>Password</label>
-        <input
-          id="signupPassword"
-          type="password"
-          placeholder="At least 6 characters"
-          autocomplete="new-password"
-        >
-
-        <label>Confirm Password</label>
-        <input
-          id="signupConfirm"
-          type="password"
-          placeholder="Re-enter password"
-          autocomplete="new-password"
-        >
-
-        <button
-          id="signupBtn"
-          type="button"
-          class="primary auth-btn"
-        >
-          Create Account
-        </button>
-
-        <div class="auth-switch">
-          Already have an account?
-          <button type="button" onclick="showAuthPanel('login')">
-            Login
-          </button>
-        </div>
-
-      </div>
-
-
-      <!-- EMAIL VERIFICATION -->
-      <div id="verifyPanel" class="hidden">
-
-        <h2>Verify Your Email</h2>
-
-        <p style="font-size:14px;line-height:1.5;margin-top:0">
-          We sent a confirmation link to
-          <b id="verifyEmailText">your email</b>.
-        </p>
-
-        <p style="font-size:14px;line-height:1.5;margin-top:12px">
-          Please open the email and click
-          <b>Confirm email address</b>
-          to verify your account.
-        </p>
-
-        <p style="font-size:13px;line-height:1.5;margin-top:12px">
-          After confirming your email, return to this website and log in
-          using your email and password.
-        </p>
-
-        <button
-          id="resendBtn"
-          type="button"
-          class="secondary auth-btn"
-        >
-          Resend Confirmation Email
-        </button>
-
-        <div class="auth-switch">
-          <button type="button" onclick="showAuthPanel('login')">
-            Back to Login
-          </button>
-        </div>
-
-      </div>
-
-      <div id="authMessage" class="auth-message"></div>
-
-    </div>
-  </div>
 </div>
 
 
-<!-- =========================
+<div class="auth-body">
+
+
+<!-- ================= LOGIN ================= -->
+
+<div id="loginPanel">
+
+<h2>
+Login
+</h2>
+
+<label>
+Email
+</label>
+
+<input
+id="loginEmail"
+type="email"
+placeholder="teacher@email.com"
+autocomplete="email"
+>
+
+
+<label>
+Password
+</label>
+
+<div class="password-wrap">
+
+<input
+id="loginPassword"
+type="password"
+placeholder="Password"
+autocomplete="current-password"
+>
+
+<button
+type="button"
+class="password-toggle"
+onclick="togglePassword('loginPassword',this)"
+aria-label="Show password"
+>
+👁
+</button>
+
+</div>
+
+
+<div class="forgot-password-wrap">
+
+<button
+type="button"
+class="forgot-password-btn"
+onclick="showAuthPanel('forgot')"
+>
+Forgot Password?
+</button>
+
+</div>
+
+
+<button
+id="loginBtn"
+type="button"
+class="primary auth-btn"
+>
+Login
+</button>
+
+
+<div class="auth-switch">
+
+Don't have an account?
+
+<button
+type="button"
+onclick="showAuthPanel('signup')"
+>
+Create Account
+</button>
+
+</div>
+
+</div>
+
+
+<!-- ================= CREATE ACCOUNT ================= -->
+
+<div id="signupPanel" class="hidden">
+
+<h2>
+Create Account
+</h2>
+
+
+<label>
+Teacher Name
+</label>
+
+<input
+id="signupName"
+placeholder="Your name"
+autocomplete="name"
+>
+
+
+<label>
+Email
+</label>
+
+<input
+id="signupEmail"
+type="email"
+placeholder="teacher@email.com"
+autocomplete="email"
+>
+
+
+<label>
+Password
+</label>
+
+<div class="password-wrap">
+
+<input
+id="signupPassword"
+type="password"
+placeholder="At least 6 characters"
+autocomplete="new-password"
+>
+
+<button
+type="button"
+class="password-toggle"
+onclick="togglePassword('signupPassword',this)"
+aria-label="Show password"
+>
+👁
+</button>
+
+</div>
+
+
+<label>
+Confirm Password
+</label>
+
+<div class="password-wrap">
+
+<input
+id="signupConfirm"
+type="password"
+placeholder="Re-enter password"
+autocomplete="new-password"
+>
+
+<button
+type="button"
+class="password-toggle"
+onclick="togglePassword('signupConfirm',this)"
+aria-label="Show password"
+>
+👁
+</button>
+
+</div>
+
+
+<button
+id="signupBtn"
+type="button"
+class="primary auth-btn"
+>
+Create Account
+</button>
+
+
+<div class="auth-switch">
+
+Already have an account?
+
+<button
+type="button"
+onclick="showAuthPanel('login')"
+>
+Login
+</button>
+
+</div>
+
+</div>
+
+
+<!-- ================= EMAIL VERIFICATION ================= -->
+
+<div id="verifyPanel" class="hidden">
+
+<h2>
+Verify Your Email
+</h2>
+
+
+<p style="font-size:14px;line-height:1.5;margin-top:0">
+
+We sent a confirmation link to
+
+<b id="verifyEmailText">
+your email
+</b>.
+
+</p>
+
+
+<p style="font-size:14px;line-height:1.5;margin-top:12px">
+
+Please open the email and click
+
+<b>
+Confirm email address
+</b>
+
+to verify your account.
+
+</p>
+
+
+<p style="font-size:13px;line-height:1.5;margin-top:12px">
+
+After confirming your email, return to this website and log in using your email and password.
+
+</p>
+
+
+<button
+id="resendBtn"
+type="button"
+class="secondary auth-btn"
+>
+Resend Confirmation Email
+</button>
+
+
+<div class="auth-switch">
+
+<button
+type="button"
+onclick="showAuthPanel('login')"
+>
+Back to Login
+</button>
+
+</div>
+
+</div>
+
+
+<!-- ================= FORGOT PASSWORD ================= -->
+
+<div id="forgotPanel" class="hidden">
+
+<h2>
+Forgot Password?
+</h2>
+
+
+<p style="font-size:14px;line-height:1.5;margin-top:0">
+
+Enter your account email and we will send you a password reset link.
+
+</p>
+
+
+<label>
+Email
+</label>
+
+<input
+id="forgotEmail"
+type="email"
+placeholder="teacher@email.com"
+autocomplete="email"
+>
+
+
+<button
+id="forgotBtn"
+type="button"
+class="primary auth-btn"
+>
+Send Reset Link
+</button>
+
+
+<div class="auth-switch">
+
+<button
+type="button"
+onclick="showAuthPanel('login')"
+>
+Back to Login
+</button>
+
+</div>
+
+</div>
+
+
+<!-- ================= RESET PASSWORD ================= -->
+
+<div id="resetPanel" class="hidden">
+
+<h2>
+Set New Password
+</h2>
+
+
+<p style="font-size:14px;line-height:1.5;margin-top:0">
+
+Enter your new password below.
+
+</p>
+
+
+<label>
+New Password
+</label>
+
+<div class="password-wrap">
+
+<input
+id="resetPassword"
+type="password"
+placeholder="At least 6 characters"
+autocomplete="new-password"
+>
+
+<button
+type="button"
+class="password-toggle"
+onclick="togglePassword('resetPassword',this)"
+aria-label="Show password"
+>
+👁
+</button>
+
+</div>
+
+
+<label>
+Confirm New Password
+</label>
+
+<div class="password-wrap">
+
+<input
+id="resetConfirm"
+type="password"
+placeholder="Re-enter new password"
+autocomplete="new-password"
+>
+
+<button
+type="button"
+class="password-toggle"
+onclick="togglePassword('resetConfirm',this)"
+aria-label="Show password"
+>
+👁
+</button>
+
+</div>
+
+
+<button
+id="resetBtn"
+type="button"
+class="primary auth-btn"
+>
+Update Password
+</button>
+
+</div>
+
+
+<div id="authMessage" class="auth-message"></div>
+
+</div>
+</div>
+</div>
+
+
+<!-- =====================================================
      MAIN APPLICATION
-========================= -->
+===================================================== -->
+
 <div id="appShell" class="hidden">
 
 <div class="app">
 
 <div class="card">
 
+
 <div class="topbar">
-  <span style="font-weight:800;letter-spacing:.5px">TD</span>
-  &nbsp; Teacher Danyeal &nbsp;—&nbsp;
-  Teacher Evaluation Portal
+
+<span style="font-weight:800;letter-spacing:.5px">
+TD
+</span>
+
+&nbsp; Teacher Danyeal &nbsp;—&nbsp;
+
+Teacher Evaluation Portal
+
 </div>
 
-<div class="userbar">
-  <span>
-    Logged in as <b id="currentTeacher">—</b>
-  </span>
 
-  <button
-    type="button"
-    class="logout-btn"
-    onclick="logoutTeacher()"
-  >
-    Logout
-  </button>
+<div class="userbar">
+
+<span>
+Logged in as
+<b id="currentTeacher">
+—
+</b>
+</span>
+
+<button
+type="button"
+class="logout-btn"
+onclick="logoutTeacher()"
+>
+Logout
+</button>
+
 </div>
 
 
 <!-- NAVIGATION -->
+
 <div class="nav">
 
 <button
-  id="navDashboard"
-  class="active"
-  onclick="showPage('dashboard')"
+id="navDashboard"
+class="active"
+onclick="showPage('dashboard')"
 >
 Dashboard
 </button>
 
 <button
-  id="navEvaluation"
-  onclick="showPage('evaluation')"
+id="navEvaluation"
+onclick="showPage('evaluation')"
 >
 Evaluation
 </button>
 
 <button
-  id="navRecords"
-  onclick="showPage('records')"
+id="navRecords"
+onclick="showPage('records')"
 >
 Record of Evaluation
 </button>
@@ -331,30 +1191,38 @@ Record of Evaluation
 </div>
 
 
-<!-- =========================
+<!-- =====================================================
      DASHBOARD
-========================= -->
+===================================================== -->
+
 <div id="dashboardPage" class="page active">
 
 <h2 style="margin-top:0">
 Dashboard
 </h2>
 
+
 <div class="dashboard-grid">
 
 <div class="stat">
 Students
-<b id="studentCount">0</b>
+<b id="studentCount">
+0
+</b>
 </div>
 
 <div class="stat">
 Evaluations
-<b id="evaluationCount">0</b>
+<b id="evaluationCount">
+0
+</b>
 </div>
 
 <div class="stat">
 Last Evaluation
-<b id="lastEvaluation">—</b>
+<b id="lastEvaluation">
+—
+</b>
 </div>
 
 </div>
@@ -372,49 +1240,70 @@ STUDENT RECORDS
 Add each student once. During evaluation, you will only select the student.
 </p>
 
+
 <div class="add-student-grid">
 
 <div>
-<label>Student Name</label>
+
+<label>
+Student Name
+</label>
+
 <input
-  id="newStudentName"
-  placeholder="Student name"
+id="newStudentName"
+placeholder="Student name"
 >
+
 </div>
 
-<div>
-<label>Parent's Email</label>
-<input
-  id="newStudentEmail"
-  type="email"
-  placeholder="parent@email.com"
->
-</div>
 
 <div>
-<label>Student ID</label>
+
+<label>
+Parent's Email
+</label>
+
 <input
-  id="newStudentId"
-  placeholder="Student ID"
+id="newStudentEmail"
+type="email"
+placeholder="parent@email.com"
 >
+
 </div>
+
+
+<div>
+
+<label>
+Student ID
+</label>
+
+<input
+id="newStudentId"
+placeholder="Student ID"
+>
+
+</div>
+
 
 <button
-  id="addStudentBtn"
-  type="button"
-  class="primary btn"
+id="addStudentBtn"
+type="button"
+class="primary btn"
 >
 Add Student
 </button>
 
 </div>
 
+
 <div id="studentStatus" class="status"></div>
 
+
 <div
-  id="studentList"
-  class="student-list"
-  style="margin-top:15px"
+id="studentList"
+class="student-list"
+style="margin-top:15px"
 ></div>
 
 </div>
@@ -423,9 +1312,10 @@ Add Student
 </div>
 
 
-<!-- =========================
+<!-- =====================================================
      EVALUATION
-========================= -->
+===================================================== -->
+
 <div id="evaluationPage" class="page">
 
 <div class="form-wrap">
@@ -435,10 +1325,7 @@ Evaluation
 </h2>
 
 
-<div
-  class="section"
-  style="margin-top:0"
->
+<div class="section" style="margin-top:0">
 
 <div class="section-title">
 SELECT STUDENT TO EVALUATE
@@ -446,15 +1333,19 @@ SELECT STUDENT TO EVALUATE
 
 <div class="section-body">
 
-<label>Student</label>
+<label>
+Student
+</label>
 
 <select
-  id="studentSelect"
-  onchange="selectStudent()"
+id="studentSelect"
+onchange="selectStudent()"
 >
+
 <option value="">
 -- Select a student --
 </option>
+
 </select>
 
 <div class="small">
@@ -466,115 +1357,179 @@ Student Name, Parent's Email, and Student ID will be filled automatically from t
 
 
 <div
-  class="grid"
-  style="margin-top:16px"
+class="grid"
+style="margin-top:16px"
 >
 
 <div>
-<label>Student Name</label>
+
+<label>
+Student Name
+</label>
+
 <input
-  id="studentName"
-  placeholder="Select a student first"
-  readonly
+id="studentName"
+placeholder="Select a student first"
+readonly
 >
+
 </div>
 
-<div>
-<label>Parent's Email</label>
-<input
-  id="parentEmail"
-  type="email"
-  placeholder="Select a student first"
-  readonly
->
-</div>
 
 <div>
-<label>Student ID</label>
+
+<label>
+Parent's Email
+</label>
+
 <input
-  id="studentId"
-  placeholder="Select a student first"
-  readonly
+id="parentEmail"
+type="email"
+placeholder="Select a student first"
+readonly
 >
+
 </div>
 
-<div>
-<label>Date</label>
-<input
-  id="date"
-  type="date"
->
-</div>
 
 <div>
-<label>Time</label>
+
+<label>
+Student ID
+</label>
+
 <input
-  id="time"
-  type="time"
+id="studentId"
+placeholder="Select a student first"
+readonly
 >
+
 </div>
 
-<div>
-<label>Lesson / Topic</label>
-<input
-  id="lessonTopic"
-  placeholder="Lesson / Topic"
->
-</div>
 
 <div>
-<label>Class Duration</label>
+
+<label>
+Date
+</label>
+
 <input
-  id="duration"
-  value="25 minutes"
+id="date"
+type="date"
 >
+
 </div>
 
-<div>
-<label>Teacher</label>
-<input
-  id="teacher"
-  value="Teacher Danyeal"
->
-</div>
 
 <div>
-<label>Overall Score</label>
+
+<label>
+Time
+</label>
+
 <input
-  id="score"
-  type="number"
-  min="0"
-  max="100"
-  placeholder="0-100"
+id="time"
+type="time"
 >
+
+</div>
+
+
+<div>
+
+<label>
+Lesson / Topic
+</label>
+
+<input
+id="lessonTopic"
+placeholder="Lesson / Topic"
+>
+
+</div>
+
+
+<div>
+
+<label>
+Class Duration
+</label>
+
+<input
+id="duration"
+value="25 minutes"
+>
+
+</div>
+
+
+<div>
+
+<label>
+Teacher
+</label>
+
+<input
+id="teacher"
+value="Teacher Danyeal"
+>
+
+</div>
+
+
+<div>
+
+<label>
+Overall Score
+</label>
+
+<input
+id="score"
+type="number"
+min="0"
+max="100"
+placeholder="0-100"
+>
+
 </div>
 
 </div>
 
 
 <div
-  class="score-box"
-  style="margin-top:12px"
+class="score-box"
+style="margin-top:12px"
 >
 
 <div>
-<label>Rating</label>
+
+<label>
+Rating
+</label>
+
 <div
-  id="ratingText"
-  class="rating"
+id="ratingText"
+class="rating"
 >
 Excellent
 </div>
+
 </div>
 
+
 <div>
-<label>Score Range</label>
+
+<label>
+Score Range
+</label>
+
 <div
-  id="scoreRange"
-  class="rating"
+id="scoreRange"
+class="rating"
 >
 95–100
 </div>
+
 </div>
 
 </div>
@@ -589,11 +1544,12 @@ WHAT WE LEARNED TODAY / VOCABULARY
 <div class="section-body">
 
 <textarea
-  id="vocabulary"
-  placeholder="Example: apple, banana, hungry, I like..., I don't like..."
+id="vocabulary"
+placeholder="Example: apple, banana, hungry, I like..., I don't like..."
 ></textarea>
 
 </div>
+
 </div>
 
 
@@ -606,19 +1562,20 @@ NEEDS IMPROVEMENT / AREAS TO PRACTICE
 <div class="section-body">
 
 <textarea
-  id="improvement"
-  placeholder="Example: pronunciation of /r/, answering in complete sentences, reading fluency"
+id="improvement"
+placeholder="Example: pronunciation of /r/, answering in complete sentences, reading fluency"
 ></textarea>
 
 </div>
+
 </div>
 
 
 <div class="section">
 
 <div
-  class="section-title"
-  style="text-align:left"
+class="section-title"
+style="text-align:left"
 >
 STUDENT PERFORMANCE
 </div>
@@ -626,62 +1583,98 @@ STUDENT PERFORMANCE
 <div class="performance">
 
 <div class="perf-item">
-<b>Participation:</b>
+
+<b>
+Participation:
+</b>
+
 <span
-  class="stars"
-  data-field="participation"
+class="stars"
+data-field="participation"
 ></span>
+
 </div>
+
 
 <div class="perf-item">
-<b>Pronunciation:</b>
+
+<b>
+Pronunciation:
+</b>
+
 <span
-  class="stars"
-  data-field="pronunciation"
+class="stars"
+data-field="pronunciation"
 ></span>
+
 </div>
+
 
 <div class="perf-item">
-<b>Behavior:</b>
+
+<b>
+Behavior:
+</b>
+
 <span
-  class="stars"
-  data-field="behavior"
+class="stars"
+data-field="behavior"
 ></span>
+
 </div>
+
 
 <div class="perf-item">
-<b>Speaking:</b>
+
+<b>
+Speaking:
+</b>
+
 <span
-  class="stars"
-  data-field="speaking"
+class="stars"
+data-field="speaking"
 ></span>
+
 </div>
+
 
 <div class="perf-item">
-<b>Understanding:</b>
+
+<b>
+Understanding:
+</b>
+
 <span
-  class="stars"
-  data-field="understanding"
+class="stars"
+data-field="understanding"
 ></span>
+
 </div>
+
 
 <div class="perf-item">
-<b>Listening:</b>
+
+<b>
+Listening:
+</b>
+
 <span
-  class="stars"
-  data-field="listening"
+class="stars"
+data-field="listening"
 ></span>
+
 </div>
 
 </div>
+
 </div>
 
 
 <div class="section">
 
 <div
-  class="section-title"
-  style="text-align:left"
+class="section-title"
+style="text-align:left"
 >
 TEACHER'S COMMENT / NOTE — AUTOMATIC
 </div>
@@ -689,50 +1682,53 @@ TEACHER'S COMMENT / NOTE — AUTOMATIC
 <div class="section-body">
 
 <div
-  id="commentPreview"
-  class="comment-box"
+id="commentPreview"
+class="comment-box"
 >
 Select a student and fill in the lesson details. The teacher's comment will be generated automatically.
 </div>
 
 </div>
+
 </div>
 
 
 <div class="buttons">
 
 <button
-  class="primary"
-  onclick="updateComment()"
+class="primary"
+onclick="updateComment()"
 >
 Generate / Update Comment
 </button>
 
 <button
-  id="submitBtn"
-  class="primary"
-  onclick="sendEvaluation()"
+id="submitBtn"
+class="primary"
+onclick="sendEvaluation()"
 >
 Submit & Email Parent
 </button>
 
 <button
-  class="secondary"
-  onclick="window.print()"
+class="secondary"
+onclick="window.print()"
 >
 Print / Save PDF
 </button>
 
 <button
-  class="secondary"
-  onclick="resetForm()"
+class="secondary"
+onclick="resetForm()"
 >
 Clear
 </button>
 
 </div>
 
+
 <div id="status" class="status"></div>
+
 
 <div class="small">
 EmailJS is connected. After you submit, the class memo will be emailed automatically to the parent and saved in Record of Evaluation.
@@ -742,14 +1738,16 @@ EmailJS is connected. After you submit, the class memo will be emailed automatic
 </div>
 
 
-<!-- =========================
+<!-- =====================================================
      RECORDS
-========================= -->
+===================================================== -->
+
 <div id="recordsPage" class="page">
 
 <h2 style="margin-top:0">
 Record of Evaluation
 </h2>
+
 
 <div class="panel">
 
@@ -766,12 +1764,31 @@ CLASS EVALUATION HISTORY
 <thead>
 
 <tr>
-<th>Date & Time</th>
-<th>Student</th>
-<th>Lesson / Topic</th>
-<th>Score</th>
-<th>Rating</th>
-<th>Email</th>
+
+<th>
+Date & Time
+</th>
+
+<th>
+Student
+</th>
+
+<th>
+Lesson / Topic
+</th>
+
+<th>
+Score
+</th>
+
+<th>
+Rating
+</th>
+
+<th>
+Email
+</th>
+
 </tr>
 
 </thead>
@@ -782,9 +1799,10 @@ CLASS EVALUATION HISTORY
 
 </div>
 
+
 <div
-  id="recordEmpty"
-  class="empty"
+id="recordEmpty"
+class="empty"
 >
 No evaluations recorded yet.
 </div>
@@ -794,19 +1812,19 @@ No evaluations recorded yet.
 
 </div>
 
-
 </div>
 </div>
 </div>
 
 
-<!-- =========================
+<!-- =====================================================
      EDIT STUDENT MODAL
-========================= -->
+===================================================== -->
+
 <div
-  id="editStudentModal"
-  class="modal-backdrop"
-  onclick="if(event.target===this) closeEditStudent()"
+id="editStudentModal"
+class="modal-backdrop"
+onclick="if(event.target===this) closeEditStudent()"
 >
 
 <div class="modal">
@@ -820,57 +1838,62 @@ Update the student's saved information.
 </p>
 
 <input
-  type="hidden"
-  id="editOriginalId"
+type="hidden"
+id="editOriginalId"
 >
+
 
 <label>
 Student Name
 </label>
 
 <input
-  id="editStudentName"
-  placeholder="Student name"
+id="editStudentName"
+placeholder="Student name"
 >
+
 
 <label style="margin-top:10px">
 Parent's Email
 </label>
 
 <input
-  id="editStudentEmail"
-  type="email"
-  placeholder="parent@email.com"
+id="editStudentEmail"
+type="email"
+placeholder="parent@email.com"
 >
+
 
 <label style="margin-top:10px">
 Student ID
 </label>
 
 <input
-  id="editStudentId"
-  placeholder="Student ID"
+id="editStudentId"
+placeholder="Student ID"
 >
 
+
 <div
-  id="editStudentError"
-  class="modal-error"
+id="editStudentError"
+class="modal-error"
 ></div>
+
 
 <div class="modal-actions">
 
 <button
-  type="button"
-  class="modal-cancel"
-  onclick="closeEditStudent()"
+type="button"
+class="modal-cancel"
+onclick="closeEditStudent()"
 >
 Cancel
 </button>
 
 <button
-  type="button"
-  class="modal-save"
-  onclick="saveEditedStudent()"
+type="button"
+class="modal-save"
+onclick="saveEditedStudent()"
 >
 Save Changes
 </button>
@@ -881,13 +1904,14 @@ Save Changes
 </div>
 
 
-<!-- =========================
+<!-- =====================================================
      DELETE STUDENT MODAL
-========================= -->
+===================================================== -->
+
 <div
-  id="deleteStudentModal"
-  class="modal-backdrop"
-  onclick="if(event.target===this) closeDeleteStudent()"
+id="deleteStudentModal"
+class="modal-backdrop"
+onclick="if(event.target===this) closeDeleteStudent()"
 >
 
 <div class="modal">
@@ -902,41 +1926,46 @@ To prevent accidental deletion, type the student's
 exactly as shown below:
 </p>
 
-<div
-  id="deleteStudentIdLabel"
-  style="font-weight:700;background:#f4f4f4;border:1px solid #ddd;border-radius:7px;padding:10px;margin-bottom:12px"
-></div>
-
-<input
-  type="hidden"
-  id="deleteTargetId"
->
-
-<input
-  id="deleteConfirmId"
-  placeholder="Type Student ID to confirm"
-  autocomplete="off"
->
 
 <div
-  id="deleteStudentError"
-  class="modal-error"
+id="deleteStudentIdLabel"
+style="font-weight:700;background:#f4f4f4;border:1px solid #ddd;border-radius:7px;padding:10px;margin-bottom:12px"
 ></div>
+
+
+<input
+type="hidden"
+id="deleteTargetId"
+>
+
+
+<input
+id="deleteConfirmId"
+placeholder="Type Student ID to confirm"
+autocomplete="off"
+>
+
+
+<div
+id="deleteStudentError"
+class="modal-error"
+></div>
+
 
 <div class="modal-actions">
 
 <button
-  type="button"
-  class="modal-cancel"
-  onclick="closeDeleteStudent()"
+type="button"
+class="modal-cancel"
+onclick="closeDeleteStudent()"
 >
 Cancel
 </button>
 
 <button
-  type="button"
-  class="modal-delete"
-  onclick="confirmDeleteStudent()"
+type="button"
+class="modal-delete"
+onclick="confirmDeleteStudent()"
 >
 Delete Student
 </button>
@@ -967,13 +1996,16 @@ const SUPABASE_URL='https://dgylrfzekivbrxykihas.supabase.co';
 
 const SUPABASE_PUBLISHABLE_KEY='sb_publishable_ebay1AQFGVfnemBoxIb87Q_aDXHTAOE';
 
-const SUPABASE_REDIRECT_URL='https://danielcalipsan20.github.io/Teacher-Danyeal-Class-Evaluation-td-portal/';
+const SUPABASE_REDIRECT_URL=
+'https://danielcalipsan20.github.io/Teacher-Danyeal-Class-Evaluation-td-portal/';
+
 
 const supabaseClient=
-  window.supabase.createClient(
-    SUPABASE_URL,
-    SUPABASE_PUBLISHABLE_KEY
-  );
+window.supabase.createClient(
+SUPABASE_URL,
+SUPABASE_PUBLISHABLE_KEY
+);
+
 
 let currentUser=null;
 
@@ -989,39 +2021,53 @@ let commentVersion=0;
 ========================================================= */
 
 function userStorageKey(base){
-  return currentUser
-    ? `${base}_${currentUser.id}`
-    : base;
+
+return currentUser
+?`${base}_${currentUser.id}`
+:base;
+
 }
+
 
 function getStudents(){
-  return JSON.parse(
-    localStorage.getItem(
-      userStorageKey(STUDENTS_BASE_KEY)
-    ) || '[]'
-  );
+
+return JSON.parse(
+localStorage.getItem(
+userStorageKey(STUDENTS_BASE_KEY)
+)||'[]'
+);
+
 }
+
 
 function saveStudents(data){
-  localStorage.setItem(
-    userStorageKey(STUDENTS_BASE_KEY),
-    JSON.stringify(data)
-  );
+
+localStorage.setItem(
+userStorageKey(STUDENTS_BASE_KEY),
+JSON.stringify(data)
+);
+
 }
+
 
 function getEvaluations(){
-  return JSON.parse(
-    localStorage.getItem(
-      userStorageKey(EVALUATIONS_BASE_KEY)
-    ) || '[]'
-  );
+
+return JSON.parse(
+localStorage.getItem(
+userStorageKey(EVALUATIONS_BASE_KEY)
+)||'[]'
+);
+
 }
 
+
 function saveEvaluations(data){
-  localStorage.setItem(
-    userStorageKey(EVALUATIONS_BASE_KEY),
-    JSON.stringify(data)
-  );
+
+localStorage.setItem(
+userStorageKey(EVALUATIONS_BASE_KEY),
+JSON.stringify(data)
+);
+
 }
 
 
@@ -1031,65 +2077,127 @@ function saveEvaluations(data){
 
 function showAuthPanel(panel){
 
-  document
-    .getElementById('loginPanel')
-    .classList.toggle(
-      'hidden',
-      panel!=='login'
-    );
+document
+.getElementById('loginPanel')
+.classList.toggle(
+'hidden',
+panel!=='login'
+);
 
-  document
-    .getElementById('signupPanel')
-    .classList.toggle(
-      'hidden',
-      panel!=='signup'
-    );
 
-  document
-    .getElementById('verifyPanel')
-    .classList.toggle(
-      'hidden',
-      panel!=='verify'
-    );
+document
+.getElementById('signupPanel')
+.classList.toggle(
+'hidden',
+panel!=='signup'
+);
 
-  clearAuthMessage();
+
+document
+.getElementById('verifyPanel')
+.classList.toggle(
+'hidden',
+panel!=='verify'
+);
+
+
+document
+.getElementById('forgotPanel')
+.classList.toggle(
+'hidden',
+panel!=='forgot'
+);
+
+
+document
+.getElementById('resetPanel')
+.classList.toggle(
+'hidden',
+panel!=='reset'
+);
+
+
+clearAuthMessage();
+
 }
 
 
 function showAuthMessage(msg,ok=false){
 
-  const el=document.getElementById('authMessage');
+const el=
+document.getElementById('authMessage');
 
-  el.textContent=msg;
+el.textContent=msg;
 
-  el.className=
-    'auth-message show '+
-    (ok?'ok':'error');
+el.className=
+'auth-message show '+
+(ok?'ok':'error');
+
 }
 
 
 function clearAuthMessage(){
 
-  const el=document.getElementById('authMessage');
+const el=
+document.getElementById('authMessage');
 
-  el.textContent='';
+el.textContent='';
 
-  el.className='auth-message';
+el.className='auth-message';
+
 }
 
 
 function setAuthBusy(id,busy,label){
 
-  const b=document.getElementById(id);
+const b=document.getElementById(id);
 
-  if(!b)return;
+if(!b)return;
 
-  b.disabled=busy;
+b.disabled=busy;
 
-  b.textContent=
-    busy
-      ? 'Please wait...'
-      : label;
+b.textContent=
+busy
+?'Please wait...'
+:label;
+
+}
+
+
+/* =========================================================
+   SHOW / HIDE PASSWORD
+========================================================= */
+
+function togglePassword(inputId,button){
+
+const input=
+document.getElementById(inputId);
+
+
+if(input.type==='password'){
+
+input.type='text';
+
+button.textContent='🙈';
+
+button.setAttribute(
+'aria-label',
+'Hide password'
+);
+
+}else{
+
+input.type='password';
+
+button.textContent='👁';
+
+button.setAttribute(
+'aria-label',
+'Show password'
+);
+
+}
+
 }
 
 
@@ -1099,179 +2207,198 @@ function setAuthBusy(id,busy,label){
 
 async function loginTeacher(){
 
-  const email=
-    document
-      .getElementById('loginEmail')
-      .value
-      .trim();
+const email=
+document
+.getElementById('loginEmail')
+.value
+.trim();
 
-  const password=
-    document
-      .getElementById('loginPassword')
-      .value;
 
-  if(!email)
-    return showAuthMessage(
-      'Please enter your email.'
-    );
+const password=
+document
+.getElementById('loginPassword')
+.value;
 
-  if(!password)
-    return showAuthMessage(
-      'Please enter your password.'
-    );
 
-  setAuthBusy(
-    'loginBtn',
-    true,
-    'Login'
-  );
+if(!email)
+return showAuthMessage(
+'Please enter your email.'
+);
 
-  const {error}=
-    await supabaseClient.auth.signInWithPassword({
-      email,
-      password
-    });
 
-  if(error){
+if(!password)
+return showAuthMessage(
+'Please enter your password.'
+);
 
-    showAuthMessage(
-      error.message
-    );
 
-  }
+setAuthBusy(
+'loginBtn',
+true,
+'Login'
+);
 
-  setAuthBusy(
-    'loginBtn',
-    false,
-    'Login'
-  );
+
+const {error}=
+await supabaseClient.auth.signInWithPassword({
+
+email,
+
+password
+
+});
+
+
+if(error){
+
+showAuthMessage(
+error.message
+);
+
+}
+
+
+setAuthBusy(
+'loginBtn',
+false,
+'Login'
+);
+
 }
 
 
 /* =========================================================
-   CREATE TEACHER ACCOUNT
-   EMAIL CONFIRMATION LINK VERSION
+   CREATE ACCOUNT
 ========================================================= */
 
 async function createTeacherAccount(){
 
-  const name=
-    document
-      .getElementById('signupName')
-      .value
-      .trim();
-
-  const email=
-    document
-      .getElementById('signupEmail')
-      .value
-      .trim();
-
-  const password=
-    document
-      .getElementById('signupPassword')
-      .value;
-
-  const confirm=
-    document
-      .getElementById('signupConfirm')
-      .value;
-
-  if(!name)
-    return showAuthMessage(
-      'Please enter your teacher name.'
-    );
-
-  if(!email)
-    return showAuthMessage(
-      'Please enter your email.'
-    );
-
-  if(password.length<6)
-    return showAuthMessage(
-      'Password must be at least 6 characters.'
-    );
-
-  if(password!==confirm)
-    return showAuthMessage(
-      'Passwords do not match.'
-    );
+const name=
+document
+.getElementById('signupName')
+.value
+.trim();
 
 
-  setAuthBusy(
-    'signupBtn',
-    true,
-    'Create Account'
-  );
+const email=
+document
+.getElementById('signupEmail')
+.value
+.trim();
 
 
-  const {data,error}=
-    await supabaseClient.auth.signUp({
-
-      email,
-
-      password,
-
-      options:{
-
-        data:{
-          full_name:name
-        },
-
-        emailRedirectTo:
-          SUPABASE_REDIRECT_URL
-
-      }
-
-    });
+const password=
+document
+.getElementById('signupPassword')
+.value;
 
 
-  if(error){
-
-    showAuthMessage(
-      error.message
-    );
-
-    setAuthBusy(
-      'signupBtn',
-      false,
-      'Create Account'
-    );
-
-    return;
-  }
+const confirm=
+document
+.getElementById('signupConfirm')
+.value;
 
 
-  if(data.session){
-
-    showAuthMessage(
-      'Account created successfully. You are now logged in.',
-      true
-    );
-
-  }else{
-
-    pendingVerificationEmail=email;
-
-    document
-      .getElementById('verifyEmailText')
-      .textContent=email;
-
-    showAuthPanel('verify');
-
-    showAuthMessage(
-      'A confirmation email has been sent to your email address.',
-      true
-    );
-
-  }
+if(!name)
+return showAuthMessage(
+'Please enter your teacher name.'
+);
 
 
-  setAuthBusy(
-    'signupBtn',
-    false,
-    'Create Account'
-  );
+if(!email)
+return showAuthMessage(
+'Please enter your email.'
+);
+
+
+if(password.length<6)
+return showAuthMessage(
+'Password must be at least 6 characters.'
+);
+
+
+if(password!==confirm)
+return showAuthMessage(
+'Passwords do not match.'
+);
+
+
+setAuthBusy(
+'signupBtn',
+true,
+'Create Account'
+);
+
+
+const {data,error}=
+await supabaseClient.auth.signUp({
+
+email,
+
+password,
+
+options:{
+
+data:{
+full_name:name
+},
+
+emailRedirectTo:
+SUPABASE_REDIRECT_URL
+
+}
+
+});
+
+
+if(error){
+
+showAuthMessage(
+error.message
+);
+
+setAuthBusy(
+'signupBtn',
+false,
+'Create Account'
+);
+
+return;
+
+}
+
+
+if(data.session){
+
+showAuthMessage(
+'Account created successfully. You are now logged in.',
+true
+);
+
+}else{
+
+pendingVerificationEmail=email;
+
+document
+.getElementById('verifyEmailText')
+.textContent=email;
+
+showAuthPanel('verify');
+
+showAuthMessage(
+'A confirmation email has been sent to your email address.',
+true
+);
+
+}
+
+
+setAuthBusy(
+'signupBtn',
+false,
+'Create Account'
+);
+
 }
 
 
@@ -1281,65 +2408,228 @@ async function createTeacherAccount(){
 
 async function resendVerificationEmail(){
 
-  const email=
-    pendingVerificationEmail ||
-    document
-      .getElementById('signupEmail')
-      .value
-      .trim();
-
-  if(!email){
-
-    return showAuthMessage(
-      'No verification email is available. Please create the account again.'
-    );
-
-  }
+const email=
+pendingVerificationEmail ||
+document
+.getElementById('signupEmail')
+.value
+.trim();
 
 
-  setAuthBusy(
-    'resendBtn',
-    true,
-    'Resend Confirmation Email'
-  );
+if(!email){
+
+return showAuthMessage(
+'No verification email is available. Please create the account again.'
+);
+
+}
 
 
-  const {error}=
-    await supabaseClient.auth.resend({
-
-      type:'signup',
-
-      email,
-
-      options:{
-        emailRedirectTo:
-          SUPABASE_REDIRECT_URL
-      }
-
-    });
+setAuthBusy(
+'resendBtn',
+true,
+'Resend Confirmation Email'
+);
 
 
-  if(error){
+const {error}=
+await supabaseClient.auth.resend({
 
-    showAuthMessage(
-      error.message
-    );
+type:'signup',
 
-  }else{
+email,
 
-    showAuthMessage(
-      'A new confirmation email has been sent. Please check your inbox.',
-      true
-    );
+options:{
 
-  }
+emailRedirectTo:
+SUPABASE_REDIRECT_URL
+
+}
+
+});
 
 
-  setAuthBusy(
-    'resendBtn',
-    false,
-    'Resend Confirmation Email'
-  );
+if(error){
+
+showAuthMessage(
+error.message
+);
+
+}else{
+
+showAuthMessage(
+'A new confirmation email has been sent. Please check your inbox.',
+true
+);
+
+}
+
+
+setAuthBusy(
+'resendBtn',
+false,
+'Resend Confirmation Email'
+);
+
+}
+
+
+/* =========================================================
+   FORGOT PASSWORD
+========================================================= */
+
+async function sendPasswordReset(){
+
+const email=
+document
+.getElementById('forgotEmail')
+.value
+.trim();
+
+
+if(!email){
+
+return showAuthMessage(
+'Please enter your email address.'
+);
+
+}
+
+
+setAuthBusy(
+'forgotBtn',
+true,
+'Send Reset Link'
+);
+
+
+const {error}=
+await supabaseClient.auth.resetPasswordForEmail(
+
+email,
+
+{
+
+redirectTo:
+SUPABASE_REDIRECT_URL
+
+}
+
+);
+
+
+if(error){
+
+showAuthMessage(
+error.message
+);
+
+}else{
+
+showAuthMessage(
+'Password reset link sent. Please check your email inbox and spam folder.',
+true
+);
+
+}
+
+
+setAuthBusy(
+'forgotBtn',
+false,
+'Send Reset Link'
+);
+
+}
+
+
+/* =========================================================
+   UPDATE PASSWORD
+========================================================= */
+
+async function updatePassword(){
+
+const password=
+document
+.getElementById('resetPassword')
+.value;
+
+
+const confirm=
+document
+.getElementById('resetConfirm')
+.value;
+
+
+if(password.length<6){
+
+return showAuthMessage(
+'Password must be at least 6 characters.'
+);
+
+}
+
+
+if(password!==confirm){
+
+return showAuthMessage(
+'Passwords do not match.'
+);
+
+}
+
+
+setAuthBusy(
+'resetBtn',
+true,
+'Update Password'
+);
+
+
+const {error}=
+await supabaseClient.auth.updateUser({
+
+password
+
+});
+
+
+if(error){
+
+showAuthMessage(
+error.message
+);
+
+}else{
+
+showAuthMessage(
+'Password updated successfully. You can now log in with your new password.',
+true
+);
+
+
+setTimeout(
+()=>{
+
+showAuthPanel('login');
+
+document
+.getElementById('loginPassword')
+.value='';
+
+},
+1500
+);
+
+}
+
+
+setAuthBusy(
+'resetBtn',
+false,
+'Update Password'
+);
+
 }
 
 
@@ -1349,7 +2639,7 @@ async function resendVerificationEmail(){
 
 async function logoutTeacher(){
 
-  await supabaseClient.auth.signOut();
+await supabaseClient.auth.signOut();
 
 }
 
@@ -1360,28 +2650,34 @@ async function logoutTeacher(){
 
 async function handleSignedIn(user){
 
-  currentUser=user;
+currentUser=user;
 
-  const name=
-    user.user_metadata?.full_name ||
-    user.email ||
-    'Teacher';
 
-  document
-    .getElementById('currentTeacher')
-    .textContent=name;
+const name=
+user.user_metadata?.full_name ||
+user.email ||
+'Teacher';
 
-  document
-    .getElementById('authScreen')
-    .classList.add('hidden');
 
-  document
-    .getElementById('appShell')
-    .classList.remove('hidden');
+document
+.getElementById('currentTeacher')
+.textContent=name;
 
-  renderDashboard();
 
-  populateStudentSelect();
+document
+.getElementById('authScreen')
+.classList.add('hidden');
+
+
+document
+.getElementById('appShell')
+.classList.remove('hidden');
+
+
+renderDashboard();
+
+populateStudentSelect();
+
 }
 
 
@@ -1391,17 +2687,21 @@ async function handleSignedIn(user){
 
 function handleSignedOut(){
 
-  currentUser=null;
+currentUser=null;
 
-  document
-    .getElementById('appShell')
-    .classList.add('hidden');
 
-  document
-    .getElementById('authScreen')
-    .classList.remove('hidden');
+document
+.getElementById('appShell')
+.classList.add('hidden');
 
-  showAuthPanel('login');
+
+document
+.getElementById('authScreen')
+.classList.remove('hidden');
+
+
+showAuthPanel('login');
+
 }
 
 
@@ -1411,42 +2711,62 @@ function handleSignedOut(){
 
 async function initAuth(){
 
-  const {
-    data:{session}
-  }=
-    await supabaseClient.auth.getSession();
+const {
+data:{session}
+}=
+await supabaseClient.auth.getSession();
 
 
-  if(session){
+if(session){
 
-    await handleSignedIn(
-      session.user
-    );
+await handleSignedIn(
+session.user
+);
 
-  }else{
+}else{
 
-    handleSignedOut();
+handleSignedOut();
 
-  }
+}
 
 
-  supabaseClient.auth.onAuthStateChange(
-    (_event,session)=>{
+supabaseClient.auth.onAuthStateChange(
+(event,session)=>{
 
-      if(session){
+if(event==='PASSWORD_RECOVERY'){
 
-        handleSignedIn(
-          session.user
-        );
+document
+.getElementById('appShell')
+.classList.add('hidden');
 
-      }else{
 
-        handleSignedOut();
+document
+.getElementById('authScreen')
+.classList.remove('hidden');
 
-      }
 
-    }
-  );
+showAuthPanel('reset');
+
+return;
+
+}
+
+
+if(session){
+
+handleSignedIn(
+session.user
+);
+
+}else{
+
+handleSignedOut();
+
+}
+
+}
+);
+
 }
 
 
@@ -1455,47 +2775,95 @@ async function initAuth(){
 ========================================================= */
 
 document
-  .getElementById('loginBtn')
-  .addEventListener(
-    'click',
-    loginTeacher
-  );
-
-document
-  .getElementById('signupBtn')
-  .addEventListener(
-    'click',
-    createTeacherAccount
-  );
-
-document
-  .getElementById('resendBtn')
-  .addEventListener(
-    'click',
-    resendVerificationEmail
-  );
+.getElementById('loginBtn')
+.addEventListener(
+'click',
+loginTeacher
+);
 
 
 document
-  .getElementById('loginPassword')
-  .addEventListener(
-    'keydown',
-    e=>{
-      if(e.key==='Enter')
-        loginTeacher();
-    }
-  );
+.getElementById('signupBtn')
+.addEventListener(
+'click',
+createTeacherAccount
+);
 
 
 document
-  .getElementById('signupConfirm')
-  .addEventListener(
-    'keydown',
-    e=>{
-      if(e.key==='Enter')
-        createTeacherAccount();
-    }
-  );
+.getElementById('resendBtn')
+.addEventListener(
+'click',
+resendVerificationEmail
+);
+
+
+document
+.getElementById('forgotBtn')
+.addEventListener(
+'click',
+sendPasswordReset
+);
+
+
+document
+.getElementById('resetBtn')
+.addEventListener(
+'click',
+updatePassword
+);
+
+
+document
+.getElementById('loginPassword')
+.addEventListener(
+'keydown',
+e=>{
+
+if(e.key==='Enter')
+loginTeacher();
+
+}
+);
+
+
+document
+.getElementById('signupConfirm')
+.addEventListener(
+'keydown',
+e=>{
+
+if(e.key==='Enter')
+createTeacherAccount();
+
+}
+);
+
+
+document
+.getElementById('forgotEmail')
+.addEventListener(
+'keydown',
+e=>{
+
+if(e.key==='Enter')
+sendPasswordReset();
+
+}
+);
+
+
+document
+.getElementById('resetConfirm')
+.addEventListener(
+'keydown',
+e=>{
+
+if(e.key==='Enter')
+updatePassword();
+
+}
+);
 
 
 /* =========================================================
@@ -1504,48 +2872,50 @@ document
 
 function showPage(page){
 
-  document
-    .querySelectorAll('.page')
-    .forEach(
-      p=>p.classList.remove('active')
-    );
+document
+.querySelectorAll('.page')
+.forEach(
+p=>p.classList.remove('active')
+);
 
 
-  document
-    .getElementById(page+'Page')
-    .classList.add('active');
+document
+.getElementById(page+'Page')
+.classList.add('active');
 
 
-  document
-    .querySelectorAll('.nav button')
-    .forEach(
-      b=>b.classList.remove('active')
-    );
+document
+.querySelectorAll('.nav button')
+.forEach(
+b=>b.classList.remove('active')
+);
 
 
-  document
-    .getElementById(
-      'nav'+
-      page.charAt(0).toUpperCase()+
-      page.slice(1)
-    )
-    .classList.add('active');
+document
+.getElementById(
+'nav'+
+page.charAt(0).toUpperCase()+
+page.slice(1)
+)
+.classList.add('active');
 
 
-  if(page==='dashboard')
-    renderDashboard();
-
-  if(page==='evaluation')
-    populateStudentSelect();
-
-  if(page==='records')
-    renderRecords();
+if(page==='dashboard')
+renderDashboard();
 
 
-  window.scrollTo({
-    top:0,
-    behavior:'smooth'
-  });
+if(page==='evaluation')
+populateStudentSelect();
+
+
+if(page==='records')
+renderRecords();
+
+
+window.scrollTo({
+top:0,
+behavior:'smooth'
+});
 
 }
 
@@ -1556,16 +2926,19 @@ function showPage(page){
 
 function showStudentStatus(msg,ok=true){
 
-  const s=
-    document.getElementById(
-      'studentStatus'
-    );
+const s=
+document.getElementById(
+'studentStatus'
+);
 
-  s.textContent=msg;
 
-  s.className=
-    'status show '+
-    (ok?'ok':'error');
+s.textContent=msg;
+
+
+s.className=
+'status show '+
+(ok?'ok':'error');
+
 }
 
 
@@ -1575,95 +2948,106 @@ function showStudentStatus(msg,ok=true){
 
 function addStudent(){
 
-  const name=
-    document
-      .getElementById('newStudentName')
-      .value
-      .trim();
-
-  const email=
-    document
-      .getElementById('newStudentEmail')
-      .value
-      .trim();
-
-  const id=
-    document
-      .getElementById('newStudentId')
-      .value
-      .trim();
+const name=
+document
+.getElementById('newStudentName')
+.value
+.trim();
 
 
-  if(!name)
-    return showStudentStatus(
-      'Please enter the student name.',
-      false
-    );
-
-  if(!email)
-    return showStudentStatus(
-      "Please enter the parent's email.",
-      false
-    );
-
-  if(!id)
-    return showStudentStatus(
-      'Please enter the student ID.',
-      false
-    );
+const email=
+document
+.getElementById('newStudentEmail')
+.value
+.trim();
 
 
-  const students=getStudents();
+const id=
+document
+.getElementById('newStudentId')
+.value
+.trim();
 
 
-  if(
-    students.some(
-      s=>s.id.toLowerCase()===id.toLowerCase()
-    )
-  ){
-
-    return showStudentStatus(
-      'That Student ID already exists.',
-      false
-    );
-
-  }
+if(!name)
+return showStudentStatus(
+'Please enter the student name.',
+false
+);
 
 
-  students.push({
-
-    id,
-    name,
-    email,
-    createdAt:new Date().toISOString()
-
-  });
+if(!email)
+return showStudentStatus(
+"Please enter the parent's email.",
+false
+);
 
 
-  saveStudents(students);
+if(!id)
+return showStudentStatus(
+'Please enter the student ID.',
+false
+);
 
 
-  document
-    .getElementById('newStudentName')
-    .value='';
-
-  document
-    .getElementById('newStudentEmail')
-    .value='';
-
-  document
-    .getElementById('newStudentId')
-    .value='';
+const students=getStudents();
 
 
-  showStudentStatus(
-    'Student added successfully.',
-    true
-  );
+if(
+students.some(
+s=>s.id.toLowerCase()===id.toLowerCase()
+)
+){
 
-  renderDashboard();
+return showStudentStatus(
+'That Student ID already exists.',
+false
+);
 
-  populateStudentSelect();
+}
+
+
+students.push({
+
+id,
+
+name,
+
+email,
+
+createdAt:new Date().toISOString()
+
+});
+
+
+saveStudents(students);
+
+
+document
+.getElementById('newStudentName')
+.value='';
+
+
+document
+.getElementById('newStudentEmail')
+.value='';
+
+
+document
+.getElementById('newStudentId')
+.value='';
+
+
+showStudentStatus(
+'Student added successfully.',
+true
+);
+
+
+renderDashboard();
+
+populateStudentSelect();
+
 }
 
 
@@ -1673,52 +3057,52 @@ function addStudent(){
 
 function toggleStudentMenu(id){
 
-  document
-    .querySelectorAll('.student-menu')
-    .forEach(
-      m=>m.classList.remove('show')
-    );
+document
+.querySelectorAll('.student-menu')
+.forEach(
+m=>m.classList.remove('show')
+);
 
 
-  const menu=
-    document.getElementById(
-      'studentMenu-'+
-      encodeURIComponent(id)
-    );
+const menu=
+document.getElementById(
+'studentMenu-'+
+encodeURIComponent(id)
+);
 
 
-  if(menu)
-    menu.classList.toggle('show');
+if(menu)
+menu.classList.toggle('show');
 
 }
 
 
 function closeStudentMenus(){
 
-  document
-    .querySelectorAll('.student-menu')
-    .forEach(
-      m=>m.classList.remove('show')
-    );
+document
+.querySelectorAll('.student-menu')
+.forEach(
+m=>m.classList.remove('show')
+);
 
 }
 
 
 document.addEventListener(
-  'click',
-  e=>{
+'click',
+e=>{
 
-    if(
-      !e.target.closest(
-        '.student-actions'
-      )
-    ){
+if(
+!e.target.closest(
+'.student-actions'
+)
+){
 
-      closeStudentMenus();
+closeStudentMenus();
 
-    }
+}
 
-  }
+}
 );
 
 
@@ -1728,165 +3112,181 @@ document.addEventListener(
 
 function openEditStudent(id){
 
-  closeStudentMenus();
-
-  const student=
-    getStudents().find(
-      s=>s.id===id
-    );
+closeStudentMenus();
 
 
-  if(!student)return;
+const student=
+getStudents().find(
+s=>s.id===id
+);
 
 
-  document
-    .getElementById('editOriginalId')
-    .value=student.id;
-
-  document
-    .getElementById('editStudentName')
-    .value=student.name;
-
-  document
-    .getElementById('editStudentEmail')
-    .value=student.email;
-
-  document
-    .getElementById('editStudentId')
-    .value=student.id;
+if(!student)return;
 
 
-  document
-    .getElementById('editStudentError')
-    .textContent='';
-
-  document
-    .getElementById('editStudentError')
-    .classList.remove('show');
+document
+.getElementById('editOriginalId')
+.value=student.id;
 
 
-  document
-    .getElementById('editStudentModal')
-    .classList.add('show');
+document
+.getElementById('editStudentName')
+.value=student.name;
+
+
+document
+.getElementById('editStudentEmail')
+.value=student.email;
+
+
+document
+.getElementById('editStudentId')
+.value=student.id;
+
+
+document
+.getElementById('editStudentError')
+.textContent='';
+
+
+document
+.getElementById('editStudentError')
+.classList.remove('show');
+
+
+document
+.getElementById('editStudentModal')
+.classList.add('show');
 
 }
 
 
 function closeEditStudent(){
 
-  document
-    .getElementById('editStudentModal')
-    .classList.remove('show');
+document
+.getElementById('editStudentModal')
+.classList.remove('show');
 
 }
 
 
 function saveEditedStudent(){
 
-  const originalId=
-    document
-      .getElementById('editOriginalId')
-      .value;
-
-  const name=
-    document
-      .getElementById('editStudentName')
-      .value
-      .trim();
-
-  const email=
-    document
-      .getElementById('editStudentEmail')
-      .value
-      .trim();
-
-  const id=
-    document
-      .getElementById('editStudentId')
-      .value
-      .trim();
-
-  const err=
-    document
-      .getElementById('editStudentError');
+const originalId=
+document
+.getElementById('editOriginalId')
+.value;
 
 
-  const fail=msg=>{
-
-    err.textContent=msg;
-
-    err.classList.add('show');
-
-  };
+const name=
+document
+.getElementById('editStudentName')
+.value
+.trim();
 
 
-  if(!name)
-    return fail(
-      'Please enter the student name.'
-    );
-
-  if(!email)
-    return fail(
-      "Please enter the parent's email."
-    );
-
-  if(!id)
-    return fail(
-      'Please enter the student ID.'
-    );
+const email=
+document
+.getElementById('editStudentEmail')
+.value
+.trim();
 
 
-  const students=getStudents();
+const id=
+document
+.getElementById('editStudentId')
+.value
+.trim();
 
 
-  if(
-    students.some(
-      s=>
-        s.id.toLowerCase()===id.toLowerCase()
-        &&
-        s.id!==originalId
-    )
-  ){
-
-    return fail(
-      'That Student ID already exists.'
-    );
-
-  }
+const err=
+document
+.getElementById('editStudentError');
 
 
-  const index=
-    students.findIndex(
-      s=>s.id===originalId
-    );
+const fail=msg=>{
+
+err.textContent=msg;
+
+err.classList.add('show');
+
+};
 
 
-  if(index<0)
-    return fail(
-      'Student record could not be found.'
-    );
+if(!name)
+return fail(
+'Please enter the student name.'
+);
 
 
-  students[index]={
-    ...students[index],
-    name,
-    email,
-    id
-  };
+if(!email)
+return fail(
+"Please enter the parent's email."
+);
 
 
-  saveStudents(students);
+if(!id)
+return fail(
+'Please enter the student ID.'
+);
 
-  closeEditStudent();
 
-  renderDashboard();
+const students=getStudents();
 
-  populateStudentSelect(id);
 
-  showStudentStatus(
-    'Student record updated successfully.',
-    true
-  );
+if(
+students.some(
+s=>
+s.id.toLowerCase()===id.toLowerCase()
+&&
+s.id!==originalId
+)
+){
+
+return fail(
+'That Student ID already exists.'
+);
+
+}
+
+
+const index=
+students.findIndex(
+s=>s.id===originalId
+);
+
+
+if(index<0)
+return fail(
+'Student record could not be found.'
+);
+
+
+students[index]={
+
+...students[index],
+
+name,
+
+email,
+
+id
+
+};
+
+
+saveStudents(students);
+
+closeEditStudent();
+
+renderDashboard();
+
+populateStudentSelect(id);
+
+showStudentStatus(
+'Student record updated successfully.',
+true
+);
 
 }
 
@@ -1897,115 +3297,121 @@ function saveEditedStudent(){
 
 function openDeleteStudent(id){
 
-  closeStudentMenus();
-
-  const student=
-    getStudents().find(
-      s=>s.id===id
-    );
+closeStudentMenus();
 
 
-  if(!student)return;
+const student=
+getStudents().find(
+s=>s.id===id
+);
 
 
-  document
-    .getElementById('deleteTargetId')
-    .value=student.id;
+if(!student)return;
 
 
-  document
-    .getElementById('deleteStudentIdLabel')
-    .textContent=student.id;
+document
+.getElementById('deleteTargetId')
+.value=student.id;
 
 
-  document
-    .getElementById('deleteConfirmId')
-    .value='';
+document
+.getElementById('deleteStudentIdLabel')
+.textContent=student.id;
 
 
-  document
-    .getElementById('deleteStudentError')
-    .textContent='';
-
-  document
-    .getElementById('deleteStudentError')
-    .classList.remove('show');
+document
+.getElementById('deleteConfirmId')
+.value='';
 
 
-  document
-    .getElementById('deleteStudentModal')
-    .classList.add('show');
+document
+.getElementById('deleteStudentError')
+.textContent='';
 
 
-  setTimeout(
-    ()=>{
-      document
-        .getElementById('deleteConfirmId')
-        .focus();
-    },
-    50
-  );
+document
+.getElementById('deleteStudentError')
+.classList.remove('show');
+
+
+document
+.getElementById('deleteStudentModal')
+.classList.add('show');
+
+
+setTimeout(
+()=>{
+
+document
+.getElementById('deleteConfirmId')
+.focus();
+
+},
+50
+);
 
 }
 
 
 function closeDeleteStudent(){
 
-  document
-    .getElementById('deleteStudentModal')
-    .classList.remove('show');
+document
+.getElementById('deleteStudentModal')
+.classList.remove('show');
 
 }
 
 
 function confirmDeleteStudent(){
 
-  const target=
-    document
-      .getElementById('deleteTargetId')
-      .value;
-
-  const typed=
-    document
-      .getElementById('deleteConfirmId')
-      .value
-      .trim();
-
-  const err=
-    document
-      .getElementById('deleteStudentError');
+const target=
+document
+.getElementById('deleteTargetId')
+.value;
 
 
-  if(typed!==target){
-
-    err.textContent=
-      'Student ID does not match. The student was NOT deleted.';
-
-    err.classList.add('show');
-
-    return;
-
-  }
+const typed=
+document
+.getElementById('deleteConfirmId')
+.value
+.trim();
 
 
-  saveStudents(
-    getStudents().filter(
-      s=>s.id!==target
-    )
-  );
+const err=
+document
+.getElementById('deleteStudentError');
 
 
-  closeDeleteStudent();
+if(typed!==target){
 
-  renderDashboard();
+err.textContent=
+'Student ID does not match. The student was NOT deleted.';
 
-  populateStudentSelect();
+err.classList.add('show');
+
+return;
+
+}
 
 
-  showStudentStatus(
-    'Student deleted successfully. Existing evaluation history was kept.',
-    true
-  );
+saveStudents(
+getStudents().filter(
+s=>s.id!==target
+)
+);
+
+
+closeDeleteStudent();
+
+renderDashboard();
+
+populateStudentSelect();
+
+
+showStudentStatus(
+'Student deleted successfully. Existing evaluation history was kept.',
+true
+);
 
 }
 
@@ -2016,50 +3422,50 @@ function confirmDeleteStudent(){
 
 function renderDashboard(){
 
-  const students=getStudents();
+const students=getStudents();
 
-  const evals=getEvaluations();
-
-
-  document
-    .getElementById('studentCount')
-    .textContent=students.length;
+const evals=getEvaluations();
 
 
-  document
-    .getElementById('evaluationCount')
-    .textContent=evals.length;
+document
+.getElementById('studentCount')
+.textContent=students.length;
 
 
-  document
-    .getElementById('lastEvaluation')
-    .textContent=
-      evals.length
-        ? formatDateTime(
-            evals[evals.length-1].dateTime
-          )
-        : '—';
+document
+.getElementById('evaluationCount')
+.textContent=evals.length;
 
 
-  const list=
-    document.getElementById(
-      'studentList'
-    );
+document
+.getElementById('lastEvaluation')
+.textContent=
+evals.length
+?formatDateTime(
+evals[evals.length-1].dateTime
+)
+:'—';
 
 
-  if(!students.length){
-
-    list.innerHTML=
-      '<div class="empty">No students yet. Add your first student above.</div>';
-
-    return;
-
-  }
+const list=
+document.getElementById(
+'studentList'
+);
 
 
-  list.innerHTML=
-    students.map(
-      s=>`
+if(!students.length){
+
+list.innerHTML=
+'<div class="empty">No students yet. Add your first student above.</div>';
+
+return;
+
+}
+
+
+list.innerHTML=
+students.map(
+s=>`
 
 <div class="student-row">
 
@@ -2081,31 +3487,32 @@ ${escapeHtml(s.email)}
 <div class="student-actions">
 
 <button
-  type="button"
-  class="dots-btn"
-  aria-label="Student options"
-  onclick="event.stopPropagation();toggleStudentMenu('${escapeAttr(s.id)}')"
+type="button"
+class="dots-btn"
+aria-label="Student options"
+onclick="event.stopPropagation();toggleStudentMenu('${escapeAttr(s.id)}')"
 >
 ⋮
 </button>
 
 
 <div
-  id="studentMenu-${encodeURIComponent(s.id)}"
-  class="student-menu"
+id="studentMenu-${encodeURIComponent(s.id)}"
+class="student-menu"
 >
 
 <button
-  type="button"
-  onclick="openEditStudent('${escapeAttr(s.id)}')"
+type="button"
+onclick="openEditStudent('${escapeAttr(s.id)}')"
 >
 Edit
 </button>
 
+
 <button
-  type="button"
-  class="delete-option"
-  onclick="openDeleteStudent('${escapeAttr(s.id)}')"
+type="button"
+class="delete-option"
+onclick="openDeleteStudent('${escapeAttr(s.id)}')"
 >
 Delete
 </button>
@@ -2117,8 +3524,8 @@ Delete
 </div>
 
 `
-    )
-    .join('');
+)
+.join('');
 
 }
 
@@ -2129,36 +3536,39 @@ Delete
 
 function populateStudentSelect(selectedId){
 
-  const select=
-    document.getElementById(
-      'studentSelect'
-    );
-
-  const students=getStudents();
-
-  const current=
-    selectedId ||
-    select.value;
+const select=
+document.getElementById(
+'studentSelect'
+);
 
 
-  select.innerHTML=
-    '<option value="">-- Select a student --</option>'+
-    students.map(
-      s=>
-        `<option value="${escapeAttr(s.id)}">${escapeHtml(s.name)} — ${escapeHtml(s.id)}</option>`
-    ).join('');
+const students=getStudents();
 
 
-  if(
-    current &&
-    students.some(
-      s=>s.id===current
-    )
-  ){
+const current=
+selectedId ||
+select.value;
 
-    select.value=current;
 
-  }
+select.innerHTML=
+'<option value="">-- Select a student --</option>'+
+students.map(
+s=>
+`<option value="${escapeAttr(s.id)}">${escapeHtml(s.name)} — ${escapeHtml(s.id)}</option>`
+)
+.join('');
+
+
+if(
+current &&
+students.some(
+s=>s.id===current
+)
+){
+
+select.value=current;
+
+}
 
 }
 
@@ -2169,44 +3579,45 @@ function populateStudentSelect(selectedId){
 
 function selectStudent(){
 
-  const id=
-    document
-      .getElementById('studentSelect')
-      .value;
-
-  const student=
-    getStudents().find(
-      s=>s.id===id
-    );
+const id=
+document
+.getElementById('studentSelect')
+.value;
 
 
-  document
-    .getElementById('studentName')
-    .value=
-      student
-        ? student.name
-        : '';
+const student=
+getStudents().find(
+s=>s.id===id
+);
 
 
-  document
-    .getElementById('parentEmail')
-    .value=
-      student
-        ? student.email
-        : '';
+document
+.getElementById('studentName')
+.value=
+student
+?student.name
+:'';
 
 
-  document
-    .getElementById('studentId')
-    .value=
-      student
-        ? student.id
-        : '';
+document
+.getElementById('parentEmail')
+.value=
+student
+?student.email
+:'';
 
 
-  commentVersion=0;
+document
+.getElementById('studentId')
+.value=
+student
+?student.id
+:'';
 
-  generateComment();
+
+commentVersion=0;
+
+generateComment();
 
 }
 
@@ -2217,46 +3628,48 @@ function selectStudent(){
 
 function escapeHtml(str){
 
-  return String(str).replace(
-    /[&<>'"]/g,
-    c=>({
-      '&':'&amp;',
-      '<':'&lt;',
-      '>':'&gt;',
-      "'":'&#39;',
-      '"':'&quot;'
-    }[c])
-  );
+return String(str).replace(
+/[&<>'"]/g,
+c=>({
+
+'&':'&amp;',
+'<':'&lt;',
+'>':'&gt;',
+"'":'&#39;',
+'"':'&quot;'
+
+}[c])
+);
 
 }
 
 
 function escapeAttr(str){
 
-  return escapeHtml(str)
-    .replace(/`/g,'&#96;');
+return escapeHtml(str)
+.replace(/`/g,'&#96;');
 
 }
 
 
 function formatDateTime(value){
 
-  if(!value)return '—';
+if(!value)return '—';
 
-  const d=new Date(value);
+const d=new Date(value);
 
-  return isNaN(d)
-    ? value
-    : d.toLocaleString(
-        [],
-        {
-          year:'numeric',
-          month:'2-digit',
-          day:'2-digit',
-          hour:'2-digit',
-          minute:'2-digit'
-        }
-      );
+return isNaN(d)
+?value
+:d.toLocaleString(
+[],
+{
+year:'numeric',
+month:'2-digit',
+day:'2-digit',
+hour:'2-digit',
+minute:'2-digit'
+}
+);
 
 }
 
@@ -2266,75 +3679,76 @@ function formatDateTime(value){
 ========================================================= */
 
 document
-  .querySelectorAll('.stars')
-  .forEach(el=>{
+.querySelectorAll('.stars')
+.forEach(el=>{
 
-    const field=
-      el.dataset.field;
+const field=
+el.dataset.field;
 
-    stars[field]=5;
-
-
-    for(
-      let i=1;
-      i<=5;
-      i++
-    ){
-
-      const b=
-        document.createElement(
-          'button'
-        );
-
-      b.type='button';
-
-      b.innerHTML='★';
-
-      b.title=i+' star';
-
-      b.onclick=()=>
-        setStars(field,i);
-
-      el.appendChild(b);
-
-    }
+stars[field]=5;
 
 
-    setStars(field,5);
+for(
+let i=1;
+i<=5;
+i++
+){
 
-  });
+const b=
+document.createElement(
+'button'
+);
+
+b.type='button';
+
+b.innerHTML='★';
+
+b.title=i+' star';
+
+b.onclick=()=>
+setStars(field,i);
+
+el.appendChild(b);
+
+}
+
+
+setStars(field,5);
+
+});
 
 
 function setStars(field,n){
 
-  stars[field]=n;
-
-  const el=
-    document.querySelector(
-      `[data-field="${field}"]`
-    );
+stars[field]=n;
 
 
-  [
-    ...el.querySelectorAll('button')
-  ].forEach(
-    (b,i)=>
-      b.style.opacity=
-        i<n
-          ? '1'
-          : '0.28'
-  );
+const el=
+document.querySelector(
+`[data-field="${field}"]`
+);
 
 
-  if(
-    document
-      .getElementById('studentName')
-      .value
-  ){
+[
+...el.querySelectorAll('button')
+].forEach(
+(b,i)=>
+b.style.opacity=
+i<n
+?'1'
+:'0.28'
+);
 
-    generateComment();
 
-  }
+if(
+document
+.getElementById('studentName')
+.value
+){
+
+generateComment();
+
+}
 
 }
 
@@ -2345,42 +3759,48 @@ function setStars(field,n){
 
 function getRating(score){
 
-  score=Number(score);
+score=Number(score);
 
-  if(!score && score!==0)
-    return [
-      'Excellent',
-      '95–100'
-    ];
 
-  if(score>=95)
-    return [
-      'Excellent',
-      '95–100'
-    ];
+if(!score && score!==0)
+return [
+'Excellent',
+'95–100'
+];
 
-  if(score>=90)
-    return [
-      'Very Good',
-      '90–94'
-    ];
 
-  if(score>=80)
-    return [
-      'Good',
-      '80–89'
-    ];
+if(score>=95)
+return [
+'Excellent',
+'95–100'
+];
 
-  if(score>=70)
-    return [
-      'Needs Practice',
-      '70–79'
-    ];
 
-  return [
-    'Needs Improvement',
-    '0–69'
-  ];
+if(score>=90)
+return [
+'Very Good',
+'90–94'
+];
+
+
+if(score>=80)
+return [
+'Good',
+'80–89'
+];
+
+
+if(score>=70)
+return [
+'Needs Practice',
+'70–79'
+];
+
+
+return [
+'Needs Improvement',
+'0–69'
+];
 
 }
 
@@ -2391,241 +3811,249 @@ function getRating(score){
 
 function buildComment(variant){
 
-  const name=
-    document
-      .getElementById('studentName')
-      .value
-      .trim() ||
-    'The student';
+const name=
+document
+.getElementById('studentName')
+.value
+.trim() ||
+'The student';
 
 
-  const vocab=
-    document
-      .getElementById('vocabulary')
-      .value
-      .trim();
+const vocab=
+document
+.getElementById('vocabulary')
+.value
+.trim();
 
 
-  const improvement=
-    document
-      .getElementById('improvement')
-      .value
-      .trim();
+const improvement=
+document
+.getElementById('improvement')
+.value
+.trim();
 
 
-  const score=
-    document
-      .getElementById('score')
-      .value;
+const score=
+document
+.getElementById('score')
+.value;
 
 
-  const speaking=
-    stars.speaking||5;
+const speaking=
+stars.speaking||5;
 
-  const pronunciation=
-    stars.pronunciation||5;
 
-  const understanding=
-    stars.understanding||5;
+const pronunciation=
+stars.pronunciation||5;
 
 
-  const [rating]=
-    getRating(score);
+const understanding=
+stars.understanding||5;
 
 
-  let parts=[];
+const [rating]=
+getRating(score);
 
 
-  const vocabStart=[
+let parts=[];
 
-    `${name} learned and practiced ${vocab} during today's lesson.`,
 
-    `${name} actively worked on ${vocab} in today's English lesson.`,
+const vocabStart=[
 
-    `During today's class, ${name} practiced and reviewed ${vocab}.`,
+`${name} learned and practiced ${vocab} during today's lesson.`,
 
-    `${name} made progress today while learning and practicing ${vocab}.`
+`${name} actively worked on ${vocab} in today's English lesson.`,
 
-  ];
+`During today's class, ${name} practiced and reviewed ${vocab}.`,
 
+`${name} made progress today while learning and practicing ${vocab}.`
 
-  const vocabEmpty=[
+];
 
-    `${name} participated in today's lesson and practiced the target language.`,
 
-    `${name} took part in today's lesson and practiced the target language.`,
+const vocabEmpty=[
 
-    `During today's class, ${name} practiced the lesson target and participated in the activities.`,
+`${name} participated in today's lesson and practiced the target language.`,
 
-    `${name} participated in the lesson and practiced the target English skills.`
+`${name} took part in today's lesson and practiced the target language.`,
 
-  ];
+`During today's class, ${name} practiced the lesson target and participated in the activities.`,
 
+`${name} participated in the lesson and practiced the target English skills.`
 
-  const imp=[
+];
 
-    `For continued progress, ${name} should continue practicing ${improvement}.`,
 
-    `To continue improving, ${name} can focus on ${improvement}.`,
+const imp=[
 
-    `For the next lessons, ${name} is encouraged to work on ${improvement}.`,
+`For continued progress, ${name} should continue practicing ${improvement}.`,
 
-    `A helpful next step for ${name} is to continue working on ${improvement}.`
+`To continue improving, ${name} can focus on ${improvement}.`,
 
-  ];
+`For the next lessons, ${name} is encouraged to work on ${improvement}.`,
 
+`A helpful next step for ${name} is to continue working on ${improvement}.`
 
-  const impEmpty=[
+];
 
-    `${name} is encouraged to continue reviewing today's lesson and practicing the target language at home.`,
 
-    `Regular review of today's lesson at home will help ${name} continue making progress.`,
+const impEmpty=[
 
-    `${name} is encouraged to review the lesson and practice the target language regularly.`,
+`${name} is encouraged to continue reviewing today's lesson and practicing the target language at home.`,
 
-    `Continuing to review and practice today's lesson will support further progress.`
+`Regular review of today's lesson at home will help ${name} continue making progress.`,
 
-  ];
+`${name} is encouraged to review the lesson and practice the target language regularly.`,
 
+`Continuing to review and practice today's lesson will support further progress.`
 
-  const scoreText=[
+];
 
-    `Overall performance: ${rating} (${score}/100).`,
 
-    `${name}'s overall result was ${rating}, with a score of ${score}/100.`,
+const scoreText=[
 
-    `The overall performance rating was ${rating} (${score}/100).`,
+`Overall performance: ${rating} (${score}/100).`,
 
-    `Today's overall result was ${rating}, with ${score}/100.`
+`${name}'s overall result was ${rating}, with a score of ${score}/100.`,
 
-  ];
+`The overall performance rating was ${rating} (${score}/100).`,
 
+`Today's overall result was ${rating}, with ${score}/100.`
 
-  const comm=[
+];
 
-    `${name} showed good communication and pronunciation during class.`,
 
-    `${name} communicated well and demonstrated good pronunciation.`,
+const comm=[
 
-    `${name} showed positive speaking skills and clear pronunciation.`,
+`${name} showed good communication and pronunciation during class.`,
 
-    `${name} demonstrated good speaking and pronunciation during the class.`
+`${name} communicated well and demonstrated good pronunciation.`,
 
-  ];
+`${name} showed positive speaking skills and clear pronunciation.`,
 
+`${name} demonstrated good speaking and pronunciation during the class.`
 
-  const commLow=[
+];
 
-    `${name} would benefit from additional speaking and pronunciation practice.`,
 
-    `Additional practice in speaking and pronunciation will help ${name} build confidence.`,
+const commLow=[
 
-    `More speaking and pronunciation practice would support ${name}'s continued progress.`,
+`${name} would benefit from additional speaking and pronunciation practice.`,
 
-    `Focused speaking and pronunciation practice can help ${name} improve further.`
+`Additional practice in speaking and pronunciation will help ${name} build confidence.`,
 
-  ];
+`More speaking and pronunciation practice would support ${name}'s continued progress.`,
 
+`Focused speaking and pronunciation practice can help ${name} improve further.`
 
-  const understand=[
+];
 
-    `The lesson was understood well.`,
 
-    `${name} demonstrated a good understanding of the lesson.`,
+const understand=[
 
-    `${name} showed a good level of understanding throughout the lesson.`,
+`The lesson was understood well.`,
 
-    `${name} followed and understood the lesson well.`
+`${name} demonstrated a good understanding of the lesson.`,
 
-  ];
+`${name} showed a good level of understanding throughout the lesson.`,
 
+`${name} followed and understood the lesson well.`
 
-  const understandLow=[
+];
 
-    `More review and guided practice will help strengthen understanding.`,
 
-    `Continued guided practice and review will help improve understanding.`,
+const understandLow=[
 
-    `Additional explanation, review, and practice may help strengthen ${name}'s understanding.`,
+`More review and guided practice will help strengthen understanding.`,
 
-    `More guided review will help ${name} develop stronger understanding of the lesson.`
+`Continued guided practice and review will help improve understanding.`,
 
-  ];
+`Additional explanation, review, and practice may help strengthen ${name}'s understanding.`,
 
+`More guided review will help ${name} develop stronger understanding of the lesson.`
 
-  parts.push(
-    (vocab?vocabStart:vocabEmpty)[variant]
-  );
+];
 
 
-  parts.push(
-    (improvement?imp:impEmpty)[variant]
-  );
+parts.push(
+(vocab?vocabStart:vocabEmpty)[variant]
+);
 
 
-  if(score)
-    parts.push(
-      scoreText[variant]
-    );
+parts.push(
+(improvement?imp:impEmpty)[variant]
+);
 
 
-  parts.push(
-    (
-      speaking>=4 &&
-      pronunciation>=4
-        ? comm
-        : commLow
-    )[variant]
-  );
+if(score)
+parts.push(
+scoreText[variant]
+);
 
 
-  parts.push(
-    (
-      understanding>=4
-        ? understand
-        : understandLow
-    )[variant]
-  );
+parts.push(
+(
+speaking>=4 &&
+pronunciation>=4
+?comm
+:commLow
+)[variant]
+);
 
 
-  return parts.join(' ');
+parts.push(
+(
+understanding>=4
+?understand
+:understandLow
+)[variant]
+);
+
+
+return parts.join(' ');
 
 }
 
 
 function generateComment(){
 
-  commentVersion=0;
+commentVersion=0;
 
-  const box=
-    document.getElementById(
-      'commentPreview'
-    );
 
-  box.textContent=
-    buildComment(0);
+const box=
+document.getElementById(
+'commentPreview'
+);
 
-  return box.textContent;
+
+box.textContent=
+buildComment(0);
+
+
+return box.textContent;
 
 }
 
 
 function updateComment(){
 
-  commentVersion=
-    (commentVersion+1)%4;
+commentVersion=
+(commentVersion+1)%4;
 
-  const box=
-    document.getElementById(
-      'commentPreview'
-    );
 
-  box.textContent=
-    buildComment(
-      commentVersion
-    );
+const box=
+document.getElementById(
+'commentPreview'
+);
 
-  return box.textContent;
+
+box.textContent=
+buildComment(
+commentVersion
+);
+
+
+return box.textContent;
 
 }
 
@@ -2635,66 +4063,66 @@ function updateComment(){
 ========================================================= */
 
 document
-  .getElementById('score')
-  .addEventListener(
-    'input',
-    ()=>{
+.getElementById('score')
+.addEventListener(
+'input',
+()=>{
 
-      const [rating,range]=
-        getRating(
-          document
-            .getElementById('score')
-            .value
-        );
-
-
-      document
-        .getElementById('ratingText')
-        .textContent=rating;
+const [rating,range]=
+getRating(
+document
+.getElementById('score')
+.value
+);
 
 
-      document
-        .getElementById('scoreRange')
-        .textContent=range;
+document
+.getElementById('ratingText')
+.textContent=rating;
 
 
-      if(
-        document
-          .getElementById('studentName')
-          .value
-      ){
+document
+.getElementById('scoreRange')
+.textContent=range;
 
-        generateComment();
 
-      }
+if(
+document
+.getElementById('studentName')
+.value
+){
 
-    }
-  );
+generateComment();
+
+}
+
+}
+);
 
 
 [
-  'vocabulary',
-  'improvement'
+'vocabulary',
+'improvement'
 ].forEach(
-  id=>
-    document
-      .getElementById(id)
-      .addEventListener(
-        'input',
-        ()=>{
+id=>
+document
+.getElementById(id)
+.addEventListener(
+'input',
+()=>{
 
-          if(
-            document
-              .getElementById('studentName')
-              .value
-          ){
+if(
+document
+.getElementById('studentName')
+.value
+){
 
-            generateComment();
+generateComment();
 
-          }
+}
 
-        }
-      )
+}
+)
 );
 
 
@@ -2704,16 +4132,18 @@ document
 
 function showStatus(msg,ok=true){
 
-  const s=
-    document.getElementById(
-      'status'
-    );
+const s=
+document.getElementById(
+'status'
+);
 
-  s.textContent=msg;
 
-  s.className=
-    'status show '+
-    (ok?'ok':'error');
+s.textContent=msg;
+
+
+s.className=
+'status show '+
+(ok?'ok':'error');
 
 }
 
@@ -2724,282 +4154,291 @@ function showStatus(msg,ok=true){
 
 function sendEvaluation(){
 
-  const name=
-    document
-      .getElementById('studentName')
-      .value
-      .trim();
-
-  const email=
-    document
-      .getElementById('parentEmail')
-      .value
-      .trim();
+const name=
+document
+.getElementById('studentName')
+.value
+.trim();
 
-  const scoreValue=
-    document
-      .getElementById('score')
-      .value;
 
-  const submitBtn=
-    document.getElementById(
-      'submitBtn'
-    );
-
-
-  if(!name)
-    return showStatus(
-      'Please select a student first.',
-      false
-    );
-
-
-  if(!email)
-    return showStatus(
-      "Please select a student with a parent's email.",
-      false
-    );
-
-
-  if(
-    !document
-      .getElementById('date')
-      .value
-  )
-    return showStatus(
-      'Please select the class date.',
-      false
-    );
-
-
-  if(
-    !document
-      .getElementById('time')
-      .value
-  )
-    return showStatus(
-      'Please select the class time.',
-      false
-    );
-
-
-  generateComment();
-
-
-  const [rating]=
-    getRating(scoreValue);
-
-
-  const starText=
-    n=>
-      '★'.repeat(
-        Number(n)||0
-      )+
-      '☆'.repeat(
-        Math.max(
-          0,
-          5-(Number(n)||0)
-        )
-      );
-
-
-  const dateValue=
-    document
-      .getElementById('date')
-      .value;
-
-  const timeValue=
-    document
-      .getElementById('time')
-      .value;
-
-
-  const templateParams={
-
-    parent_email:email,
-
-    student_name:name,
-
-    student_id:
-      document
-        .getElementById('studentId')
-        .value,
+const email=
+document
+.getElementById('parentEmail')
+.value
+.trim();
 
-    score:
-      scoreValue
-        ? `${scoreValue}/100`
-        : 'Not provided',
-
-    rating,
 
-    date:
-      `${dateValue} ${timeValue}`,
+const scoreValue=
+document
+.getElementById('score')
+.value;
 
-    duration:
-      document
-        .getElementById('duration')
-        .value
-        .trim() ||
-      'N/A',
 
-    lesson_topic:
-      document
-        .getElementById('lessonTopic')
-        .value
-        .trim() ||
-      'N/A',
+const submitBtn=
+document.getElementById(
+'submitBtn'
+);
 
-    teacher:
-      document
-        .getElementById('teacher')
-        .value
-        .trim() ||
-      'Teacher Danyeal',
 
-    vocabulary:
-      document
-        .getElementById('vocabulary')
-        .value
-        .trim() ||
-      'No vocabulary/lesson notes provided.',
+if(!name)
+return showStatus(
+'Please select a student first.',
+false
+);
 
-    improvement:
-      document
-        .getElementById('improvement')
-        .value
-        .trim() ||
-      'No specific improvement areas noted.',
 
-    participation:
-      starText(
-        stars.participation
-      ),
+if(!email)
+return showStatus(
+"Please select a student with a parent's email.",
+false
+);
 
-    pronunciation:
-      starText(
-        stars.pronunciation
-      ),
 
-    behavior:
-      starText(
-        stars.behavior
-      ),
+if(
+!document
+.getElementById('date')
+.value
+)
+return showStatus(
+'Please select the class date.',
+false
+);
+
 
-    speaking:
-      starText(
-        stars.speaking
-      ),
+if(
+!document
+.getElementById('time')
+.value
+)
+return showStatus(
+'Please select the class time.',
+false
+);
 
-    understanding:
-      starText(
-        stars.understanding
-      ),
+
+generateComment();
+
+
+const [rating]=
+getRating(scoreValue);
+
+
+const starText=
+n=>
+'★'.repeat(
+Number(n)||0
+)+
+'☆'.repeat(
+Math.max(
+0,
+5-(Number(n)||0)
+)
+);
+
+
+const dateValue=
+document
+.getElementById('date')
+.value;
+
+
+const timeValue=
+document
+.getElementById('time')
+.value;
 
-    listening:
-      starText(
-        stars.listening
-      ),
 
-    teacher_comment:
-      document
-        .getElementById('commentPreview')
-        .textContent
-        .trim()
+const templateParams={
 
-  };
+parent_email:email,
 
+student_name:name,
 
-  const record={
+student_id:
+document
+.getElementById('studentId')
+.value,
+
+score:
+scoreValue
+?`${scoreValue}/100`
+:'Not provided',
+
+rating,
+
+date:
+`${dateValue} ${timeValue}`,
 
-    ...templateParams,
+duration:
+document
+.getElementById('duration')
+.value
+.trim() ||
+'N/A',
 
-    dateTime:
-      `${dateValue}T${timeValue}`,
+lesson_topic:
+document
+.getElementById('lessonTopic')
+.value
+.trim() ||
+'N/A',
 
-    createdAt:
-      new Date().toISOString()
+teacher:
+document
+.getElementById('teacher')
+.value
+.trim() ||
+'Teacher Danyeal',
 
-  };
+vocabulary:
+document
+.getElementById('vocabulary')
+.value
+.trim() ||
+'No vocabulary/lesson notes provided.',
 
+improvement:
+document
+.getElementById('improvement')
+.value
+.trim() ||
+'No specific improvement areas noted.',
 
-  if(!window.emailjs){
+participation:
+starText(
+stars.participation
+),
 
-    return showStatus(
-      'Email service is still loading. Please wait a moment and try again.',
-      false
-    );
+pronunciation:
+starText(
+stars.pronunciation
+),
 
-  }
+behavior:
+starText(
+stars.behavior
+),
 
+speaking:
+starText(
+stars.speaking
+),
 
-  emailjs.init({
-    publicKey:
-      EMAILJS_PUBLIC_KEY
-  });
+understanding:
+starText(
+stars.understanding
+),
 
+listening:
+starText(
+stars.listening
+),
 
-  submitBtn.disabled=true;
+teacher_comment:
+document
+.getElementById('commentPreview')
+.textContent
+.trim()
 
-  submitBtn.textContent=
-    'Sending Memo...';
+};
 
 
-  showStatus(
-    'Sending the class memo to the parent...',
-    true
-  );
+const record={
 
+...templateParams,
 
-  emailjs
-    .send(
-      EMAILJS_SERVICE_ID,
-      EMAILJS_TEMPLATE_ID,
-      templateParams
-    )
+dateTime:
+`${dateValue}T${timeValue}`,
 
-    .then(()=>{
+createdAt:
+new Date().toISOString()
 
-      const evals=
-        getEvaluations();
+};
 
-      evals.push(record);
 
-      saveEvaluations(evals);
+if(!window.emailjs){
 
+return showStatus(
+'Email service is still loading. Please wait a moment and try again.',
+false
+);
 
-      showStatus(
-        `Class Memo sent successfully to ${email}. Evaluation saved to Record of Evaluation.`,
-        true
-      );
+}
 
 
-      renderDashboard();
+emailjs.init({
 
-    })
+publicKey:
+EMAILJS_PUBLIC_KEY
 
-    .catch(error=>{
+});
 
-      console.error(
-        'EmailJS error:',
-        error
-      );
 
+submitBtn.disabled=true;
 
-      showStatus(
-        'The memo could not be sent. The evaluation was not saved yet.',
-        false
-      );
 
-    })
+submitBtn.textContent=
+'Sending Memo...';
 
-    .finally(()=>{
 
-      submitBtn.disabled=false;
+showStatus(
+'Sending the class memo to the parent...',
+true
+);
 
-      submitBtn.textContent=
-        'Submit & Email Parent';
 
-    });
+emailjs
+.send(
+EMAILJS_SERVICE_ID,
+EMAILJS_TEMPLATE_ID,
+templateParams
+)
+
+.then(()=>{
+
+const evals=
+getEvaluations();
+
+
+evals.push(record);
+
+
+saveEvaluations(evals);
+
+
+showStatus(
+`Class Memo sent successfully to ${email}. Evaluation saved to Record of Evaluation.`,
+true
+);
+
+
+renderDashboard();
+
+})
+
+.catch(error=>{
+
+console.error(
+'EmailJS error:',
+error
+);
+
+
+showStatus(
+'The memo could not be sent. The evaluation was not saved yet.',
+false
+);
+
+})
+
+.finally(()=>{
+
+submitBtn.disabled=false;
+
+submitBtn.textContent=
+'Submit & Email Parent';
+
+});
 
 }
 
@@ -3010,69 +4449,69 @@ function sendEvaluation(){
 
 function resetForm(){
 
-  document
-    .getElementById('studentSelect')
-    .value='';
+document
+.getElementById('studentSelect')
+.value='';
 
 
-  [
-    'studentName',
-    'parentEmail',
-    'studentId',
-    'date',
-    'time',
-    'lessonTopic',
-    'score',
-    'vocabulary',
-    'improvement'
-  ].forEach(
-    id=>
-      document
-        .getElementById(id)
-        .value=''
-  );
+[
+'studentName',
+'parentEmail',
+'studentId',
+'date',
+'time',
+'lessonTopic',
+'score',
+'vocabulary',
+'improvement'
+].forEach(
+id=>
+document
+.getElementById(id)
+.value=''
+);
 
 
-  document
-    .getElementById('duration')
-    .value='25 minutes';
+document
+.getElementById('duration')
+.value='25 minutes';
 
 
-  document
-    .getElementById('teacher')
-    .value='Teacher Danyeal';
+document
+.getElementById('teacher')
+.value='Teacher Danyeal';
 
 
-  document
-    .getElementById('ratingText')
-    .textContent='Excellent';
+document
+.getElementById('ratingText')
+.textContent='Excellent';
 
 
-  document
-    .getElementById('scoreRange')
-    .textContent='95–100';
+document
+.getElementById('scoreRange')
+.textContent='95–100';
 
 
-  Object
-    .keys(stars)
-    .forEach(
-      k=>setStars(k,5)
-    );
+Object
+.keys(stars)
+.forEach(
+k=>setStars(k,5)
+);
 
 
-  commentVersion=0;
+commentVersion=0;
 
 
-  document
-    .getElementById('commentPreview')
-    .textContent=
-      "Select a student and fill in the lesson details. The teacher's comment will be generated automatically.";
+document
+.getElementById('commentPreview')
+.textContent=
+"Select a student and fill in the lesson details. The teacher's comment will be generated automatically.";
 
 
-  showStatus(
-    'Form cleared.',
-    true
-  );
+showStatus(
+'Form cleared.',
+true
+);
 
 }
 
@@ -3083,92 +4522,98 @@ function resetForm(){
 
 function renderRecords(){
 
-  const evals=
-    getEvaluations()
-      .slice()
-      .reverse();
-
-  const body=
-    document.getElementById(
-      'recordTableBody'
-    );
-
-  const empty=
-    document.getElementById(
-      'recordEmpty'
-    );
+const evals=
+getEvaluations()
+.slice()
+.reverse();
 
 
-  if(!evals.length){
-
-    body.innerHTML='';
-
-    empty.style.display='block';
-
-    return;
-
-  }
+const body=
+document.getElementById(
+'recordTableBody'
+);
 
 
-  empty.style.display='none';
+const empty=
+document.getElementById(
+'recordEmpty'
+);
 
 
-  body.innerHTML=
-    evals.map(
-      e=>`
+if(!evals.length){
+
+body.innerHTML='';
+
+empty.style.display='block';
+
+return;
+
+}
+
+
+empty.style.display='none';
+
+
+body.innerHTML=
+evals.map(
+e=>`
 
 <tr>
 
 <td>
 ${escapeHtml(
-  formatDateTime(
-    e.dateTime
-  )
+formatDateTime(
+e.dateTime
+)
 )}
 </td>
 
 <td>
+
 <b>
 ${escapeHtml(
-  e.student_name
+e.student_name
 )}
 </b>
+
 <br>
+
 <span class="small">
 ${escapeHtml(
-  e.student_id
+e.student_id
 )}
 </span>
+
 </td>
 
 <td>
 ${escapeHtml(
-  e.lesson_topic
+e.lesson_topic
 )}
 </td>
 
 <td>
 ${escapeHtml(
-  e.score
+e.score
 )}
 </td>
 
 <td>
 ${escapeHtml(
-  e.rating
+e.rating
 )}
 </td>
 
 <td>
 ${escapeHtml(
-  e.parent_email
+e.parent_email
 )}
 </td>
 
 </tr>
 
 `
-    ).join('');
+).join('');
 
 }
 
@@ -3178,33 +4623,33 @@ ${escapeHtml(
 ========================================================= */
 
 document
-  .getElementById('deleteConfirmId')
-  .addEventListener(
-    'keydown',
-    function(e){
+.getElementById('deleteConfirmId')
+.addEventListener(
+'keydown',
+function(e){
 
-      if(e.key==='Enter')
-        confirmDeleteStudent();
+if(e.key==='Enter')
+confirmDeleteStudent();
 
-    }
-  );
+}
+);
 
 
 document.addEventListener(
-  'keydown',
-  e=>{
+'keydown',
+e=>{
 
-    if(e.key==='Escape'){
+if(e.key==='Escape'){
 
-      closeEditStudent();
+closeEditStudent();
 
-      closeDeleteStudent();
+closeDeleteStudent();
 
-      closeStudentMenus();
+closeStudentMenus();
 
-    }
+}
 
-  }
+}
 );
 
 
@@ -3213,31 +4658,32 @@ document.addEventListener(
 ========================================================= */
 
 document
-  .getElementById('addStudentBtn')
-  .addEventListener(
-    'click',
-    function(){
+.getElementById('addStudentBtn')
+.addEventListener(
+'click',
+function(){
 
-      try{
+try{
 
-        addStudent();
+addStudent();
 
-      }catch(error){
+}catch(error){
 
-        console.error(
-          'Add Student error:',
-          error
-        );
+console.error(
+'Add Student error:',
+error
+);
 
-        showStudentStatus(
-          'Unable to add the student. Please try again.',
-          false
-        );
 
-      }
+showStudentStatus(
+'Unable to add the student. Please try again.',
+false
+);
 
-    }
-  );
+}
+
+}
+);
 
 
 /* =========================================================
