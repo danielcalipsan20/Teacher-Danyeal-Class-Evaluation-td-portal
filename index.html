@@ -87,15 +87,27 @@ button.primary,button.secondary,.btn{border:0;border-radius:8px;padding:12px 18p
         <div class="auth-switch">Already have an account? <button type="button" onclick="showAuthPanel('login')">Login</button></div>
       </div>
 
-      <div id="verifyPanel" class="hidden">
-        <h2>Verify Your Email</h2>
-        <p style="font-size:14px;line-height:1.5;margin-top:0">We sent a 6-digit verification code to <b id="verifyEmailText">your email</b>.</p>
-        <label>6-Digit Verification Code</label>
-        <input id="verificationCode" type="text" inputmode="numeric" autocomplete="one-time-code" maxlength="6" placeholder="123456" style="text-align:center;letter-spacing:5px;font-size:22px;font-weight:700">
-        <button id="verifyBtn" type="button" class="primary auth-btn">Verify Email</button>
-        <button id="resendBtn" type="button" class="secondary auth-btn">Resend Code</button>
-        <div class="auth-switch"><button type="button" onclick="showAuthPanel('login')">Back to Login</button></div>
-      </div>
+<div id="verifyPanel" class="hidden">
+  <h2>Verify Your Email</h2>
+
+  <p style="font-size:14px;line-height:1.5;margin-top:0">
+    We sent a confirmation link to <b id="verifyEmailText">your email</b>.
+  </p>
+
+  <p style="font-size:14px;line-height:1.5;margin-top:12px">
+    Please open the email and click <b>Confirm email address</b> to verify your account.
+  </p>
+
+  <p style="font-size:13px;line-height:1.5;margin-top:12px">
+    After confirming your email, return to this website and log in using your email and password.
+  </p>
+
+  <div class="auth-switch">
+    <button type="button" onclick="showAuthPanel('login')">
+      Back to Login
+    </button>
+  </div>
+</div>
       <div id="authMessage" class="auth-message"></div>
     </div>
   </div>
@@ -294,7 +306,14 @@ async function createTeacherAccount(){
  if(password.length<6)return showAuthMessage('Password must be at least 6 characters.');
  if(password!==confirm)return showAuthMessage('Passwords do not match.');
  setAuthBusy('signupBtn',true,'Create Account');
- const {data,error}=await supabaseClient.auth.signUp({email,password,options:{data:{full_name:name}}});
+ const {data,error}=await supabaseClient.auth.signUp({
+  email,
+  password,
+  options:{
+    data:{full_name:name},
+    emailRedirectTo:'https://danielcalipsan20.github.io/Teacher-Danyeal-Class-Evaluation-td-portal/'
+  }
+});
  if(error){showAuthMessage(error.message);setAuthBusy('signupBtn',false,'Create Account');return}
  if(data.session){
    showAuthMessage('Account created successfully. You are now logged in.',true);
