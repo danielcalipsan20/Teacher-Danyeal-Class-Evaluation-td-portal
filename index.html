@@ -313,7 +313,7 @@ async function verifyEmailCode(){
  if(!email)return showAuthMessage('Please enter the email used to create the account.');
  if(!/^\d{6}$/.test(token))return showAuthMessage('Please enter the 6-digit verification code.');
  setAuthBusy('verifyBtn',true,'Verify Email');
- const {data,error}=await supabaseClient.auth.verifyOtp({email,token,type:'signup'});
+ const {data,error}=await supabaseClient.auth.verifyOtp({email,token,type:'email'});
  if(error){showAuthMessage(error.message);setAuthBusy('verifyBtn',false,'Verify Email');return}
  pendingVerificationEmail='';
  document.getElementById('verificationCode').value='';
