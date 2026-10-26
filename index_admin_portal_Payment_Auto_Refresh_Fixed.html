@@ -1,0 +1,2829 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Admin Management Portal</title>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<style>
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+}
+
+body{
+  font-family:Arial,Helvetica,sans-serif;
+  background:#f4f7fb;
+  color:#1f2937;
+}
+
+.hidden{
+  display:none!important;
+}
+
+/* =========================
+   LOGIN
+========================= */
+
+#loginPage{
+  min-height:100vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:20px;
+  background:linear-gradient(135deg,#0b5ed7,#0dcaf0);
+}
+
+.login-box{
+  width:100%;
+  max-width:430px;
+  background:white;
+  border-radius:20px;
+  padding:35px;
+  box-shadow:0 20px 50px rgba(0,0,0,.18);
+}
+
+.login-logo{
+  width:75px;
+  height:75px;
+  border-radius:50%;
+  background:#0b5ed7;
+  color:white;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:30px;
+  font-weight:bold;
+  margin:0 auto 18px;
+}
+
+.login-box h1{
+  text-align:center;
+  font-size:25px;
+  margin-bottom:8px;
+}
+
+.login-box p{
+  text-align:center;
+  color:#6b7280;
+  margin-bottom:25px;
+}
+
+.input-group{
+  margin-bottom:16px;
+}
+
+.input-group label{
+  display:block;
+  font-weight:bold;
+  margin-bottom:7px;
+}
+
+.input-group input{
+  width:100%;
+  padding:13px;
+  border:1px solid #d1d5db;
+  border-radius:10px;
+  font-size:15px;
+}
+
+.btn{
+  border:0;
+  border-radius:10px;
+  padding:12px 18px;
+  cursor:pointer;
+  font-weight:bold;
+  font-size:14px;
+}
+
+.btn-primary{
+  width:100%;
+  background:#0b5ed7;
+  color:white;
+}
+
+.btn-primary:hover{
+  background:#084db2;
+}
+
+.btn-primary:disabled{
+  opacity:.6;
+  cursor:not-allowed;
+}
+
+.error{
+  color:#dc2626;
+  font-size:14px;
+  text-align:center;
+  margin-top:12px;
+  line-height:1.5;
+}
+
+/* =========================
+   ADMIN
+========================= */
+
+#adminPage{
+  min-height:100vh;
+}
+
+.topbar{
+  height:70px;
+  background:white;
+  border-bottom:1px solid #e5e7eb;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:0 28px;
+  position:sticky;
+  top:0;
+  z-index:20;
+}
+
+.brand{
+  display:flex;
+  align-items:center;
+  gap:12px;
+}
+
+.brand-icon{
+  width:44px;
+  height:44px;
+  border-radius:12px;
+  background:#0b5ed7;
+  color:white;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-weight:bold;
+  font-size:20px;
+}
+
+.brand h2{
+  font-size:20px;
+}
+
+.admin-area{
+  display:flex;
+  align-items:center;
+  gap:15px;
+}
+
+.admin-email{
+  font-size:13px;
+  color:#6b7280;
+}
+
+.logout-btn{
+  background:#fee2e2;
+  color:#b91c1c;
+}
+
+.container{
+  width:94%;
+  max-width:1500px;
+  margin:25px auto;
+}
+
+/* =========================
+   STATS
+========================= */
+
+.stats{
+  display:grid;
+  grid-template-columns:repeat(5,1fr);
+  gap:18px;
+  margin-bottom:25px;
+}
+
+.stat-card{
+  background:white;
+  border-radius:16px;
+  padding:22px;
+  box-shadow:0 5px 18px rgba(0,0,0,.06);
+}
+
+.stat-title{
+  color:#6b7280;
+  font-size:13px;
+  margin-bottom:10px;
+}
+
+.stat-number{
+  font-size:30px;
+  font-weight:bold;
+}
+
+/* =========================
+   NAV
+========================= */
+
+.tabs{
+  display:flex;
+  gap:10px;
+  background:white;
+  padding:10px;
+  border-radius:14px;
+  margin-bottom:20px;
+  box-shadow:0 5px 18px rgba(0,0,0,.05);
+  overflow-x:auto;
+}
+
+.tab{
+  padding:11px 18px;
+  border:0;
+  background:#f3f4f6;
+  border-radius:9px;
+  cursor:pointer;
+  font-weight:bold;
+  white-space:nowrap;
+}
+
+.tab.active{
+  background:#0b5ed7;
+  color:white;
+}
+
+/* =========================
+   PANELS
+========================= */
+
+.panel{
+  background:white;
+  border-radius:16px;
+  padding:24px;
+  box-shadow:0 5px 18px rgba(0,0,0,.06);
+  margin-bottom:25px;
+}
+
+.panel-header{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:15px;
+  margin-bottom:18px;
+}
+
+.panel-header h2{
+  font-size:20px;
+}
+
+.search{
+  padding:10px 13px;
+  border:1px solid #d1d5db;
+  border-radius:9px;
+  min-width:250px;
+}
+
+/* =========================
+   TABLE
+========================= */
+
+.table-wrap{
+  overflow-x:auto;
+}
+
+table{
+  width:100%;
+  border-collapse:collapse;
+}
+
+th,td{
+  padding:13px 10px;
+  border-bottom:1px solid #e5e7eb;
+  text-align:left;
+  font-size:14px;
+  white-space:nowrap;
+}
+
+th{
+  background:#f8fafc;
+  font-size:13px;
+}
+
+.badge{
+  display:inline-block;
+  padding:5px 9px;
+  border-radius:20px;
+  font-size:12px;
+  font-weight:bold;
+}
+
+.pending{
+  background:#fef3c7;
+  color:#92400e;
+}
+
+.verified{
+  background:#dcfce7;
+  color:#166534;
+}
+
+.rejected{
+  background:#fee2e2;
+  color:#991b1b;
+}
+
+.expired{
+  background:#fee2e2;
+  color:#991b1b;
+}
+
+.active{
+  background:#dcfce7;
+  color:#166534;
+}
+
+.warning{
+  background:#fef3c7;
+  color:#92400e;
+}
+
+.action-group{
+  display:flex;
+  gap:7px;
+}
+
+.verify{
+  background:#16a34a;
+  color:white;
+}
+
+.reject{
+  background:#dc2626;
+  color:white;
+}
+
+.view{
+  background:#e0f2fe;
+  color:#0369a1;
+}
+
+.empty{
+  text-align:center;
+  padding:35px;
+  color:#6b7280;
+}
+
+/* =========================
+   MODAL
+========================= */
+
+.modal{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.5);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:20px;
+  z-index:100;
+}
+
+.modal-box{
+  background:white;
+  width:100%;
+  max-width:550px;
+  border-radius:18px;
+  padding:25px;
+  max-height:90vh;
+  overflow:auto;
+}
+
+.modal-header{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:20px;
+}
+
+.close{
+  border:0;
+  background:#f3f4f6;
+  width:35px;
+  height:35px;
+  border-radius:50%;
+  cursor:pointer;
+  font-size:20px;
+}
+
+.detail-row{
+  padding:12px 0;
+  border-bottom:1px solid #e5e7eb;
+}
+
+.detail-row strong{
+  display:block;
+  font-size:12px;
+  color:#6b7280;
+  margin-bottom:4px;
+}
+
+.modal-actions{
+  display:flex;
+  gap:10px;
+  margin-top:20px;
+}
+
+.modal-actions button{
+  flex:1;
+}
+
+/* =========================
+   TOAST
+========================= */
+
+.toast{
+  position:fixed;
+  right:25px;
+  bottom:25px;
+  background:#111827;
+  color:white;
+  padding:14px 18px;
+  border-radius:10px;
+  box-shadow:0 10px 30px rgba(0,0,0,.2);
+  z-index:200;
+}
+
+/* =========================
+   MOBILE
+========================= */
+
+@media(max-width:1100px){
+
+  .stats{
+    grid-template-columns:repeat(3,1fr);
+  }
+
+}
+
+@media(max-width:700px){
+
+  .topbar{
+    height:auto;
+    padding:15px;
+    gap:12px;
+    flex-wrap:wrap;
+  }
+
+  .admin-email{
+    display:none;
+  }
+
+  .container{
+    width:96%;
+  }
+
+  .stats{
+    grid-template-columns:repeat(2,1fr);
+  }
+
+  .panel-header{
+    align-items:flex-start;
+    flex-direction:column;
+  }
+
+  .search{
+    width:100%;
+    min-width:0;
+  }
+
+}
+
+@media(max-width:450px){
+
+  .stats{
+    grid-template-columns:1fr;
+  }
+
+  .brand h2{
+    font-size:17px;
+  }
+
+}
+</style>
+</head>
+
+<body>
+
+<!-- =========================
+     LOGIN
+========================= -->
+
+<section id="loginPage">
+
+  <div class="login-box">
+
+    <div class="login-logo">
+      AM
+    </div>
+
+    <h1>
+      Admin Management Portal
+    </h1>
+
+    <p>
+      Administrator access only
+    </p>
+
+    <div class="input-group">
+
+      <label>
+        Email
+      </label>
+
+      <input
+        type="email"
+        id="loginEmail"
+        placeholder="Enter admin email"
+        autocomplete="username"
+      >
+
+    </div>
+
+    <div class="input-group">
+
+      <label>
+        Password
+      </label>
+
+      <input
+        type="password"
+        id="loginPassword"
+        placeholder="Enter password"
+        autocomplete="current-password"
+      >
+
+    </div>
+
+    <button
+      class="btn btn-primary"
+      id="loginButton"
+      onclick="adminLogin()"
+    >
+      LOGIN
+    </button>
+
+    <div
+      id="loginError"
+      class="error"
+    ></div>
+
+  </div>
+
+</section>
+
+
+<!-- =========================
+     ADMIN PAGE
+========================= -->
+
+<section
+  id="adminPage"
+  class="hidden"
+>
+
+  <header class="topbar">
+
+    <div class="brand">
+
+      <div class="brand-icon">
+        AM
+      </div>
+
+      <h2>
+        Admin Management Portal
+      </h2>
+
+    </div>
+
+    <div class="admin-area">
+
+      <span
+        class="admin-email"
+        id="adminEmailDisplay"
+      ></span>
+
+      <button
+        class="btn logout-btn"
+        onclick="adminLogout()"
+      >
+        LOGOUT
+      </button>
+
+    </div>
+
+  </header>
+
+
+  <main class="container">
+
+    <!-- STATS -->
+
+    <section class="stats">
+
+      <div class="stat-card">
+
+        <div class="stat-title">
+          TOTAL TEACHERS
+        </div>
+
+        <div
+          class="stat-number"
+          id="totalTeachers"
+        >
+          0
+        </div>
+
+      </div>
+
+
+      <div class="stat-card">
+
+        <div class="stat-title">
+          PENDING PAYMENTS
+        </div>
+
+        <div
+          class="stat-number"
+          id="pendingPayments"
+        >
+          0
+        </div>
+
+      </div>
+
+
+      <div class="stat-card">
+
+        <div class="stat-title">
+          ACTIVE SUBSCRIPTIONS
+        </div>
+
+        <div
+          class="stat-number"
+          id="activeSubscriptions"
+        >
+          0
+        </div>
+
+      </div>
+
+
+      <div class="stat-card">
+
+        <div class="stat-title">
+          EXPIRING SOON
+        </div>
+
+        <div
+          class="stat-number"
+          id="expiringSoon"
+        >
+          0
+        </div>
+
+      </div>
+
+
+      <div class="stat-card">
+
+        <div class="stat-title">
+          EXPIRED
+        </div>
+
+        <div
+          class="stat-number"
+          id="expiredSubscriptions"
+        >
+          0
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- TABS -->
+
+    <nav class="tabs">
+
+      <button
+        class="tab active"
+        onclick="showTab('dashboard',this)"
+      >
+        📊 Dashboard
+      </button>
+
+      <button
+        class="tab"
+        onclick="showTab('payments',this)"
+      >
+        💳 Payment Submissions
+      </button>
+
+      <button
+        class="tab"
+        onclick="showTab('teachers',this)"
+      >
+        👨‍🏫 Teachers
+      </button>
+
+      <button
+        class="tab"
+        onclick="showTab('subscriptions',this)"
+      >
+        📅 Subscriptions
+      </button>
+
+    </nav>
+
+
+    <!-- DASHBOARD -->
+
+    <section
+      id="dashboardTab"
+      class="tab-content"
+    >
+
+      <div class="panel">
+
+        <div class="panel-header">
+
+          <h2>
+            Recent Payment Submissions
+          </h2>
+
+          <button
+            class="btn view"
+            onclick="showTabById('payments')"
+          >
+            VIEW ALL
+          </button>
+
+        </div>
+
+        <div class="table-wrap">
+
+          <table>
+
+            <thead>
+
+              <tr>
+                <th>Teacher</th>
+                <th>Email</th>
+                <th>Payment Method</th>
+                <th>Amount</th>
+                <th>Reference Number</th>
+                <th>Date Submitted</th>
+                <th>Status</th>
+                <th>Action</th>
+              </tr>
+
+            </thead>
+
+            <tbody id="recentPaymentsTable">
+
+              <tr>
+                <td
+                  colspan="8"
+                  class="empty"
+                >
+                  No pending payment submissions.
+                </td>
+              </tr>
+
+            </tbody>
+
+          </table>
+
+        </div>
+
+      </div>
+
+
+    </section>
+
+
+    <!-- PAYMENTS -->
+
+    <section
+      id="paymentsTab"
+      class="tab-content hidden"
+    >
+
+      <div class="panel">
+
+        <div class="panel-header">
+
+          <h2>
+            Payment Submissions
+          </h2>
+
+          <input
+            class="search"
+            id="paymentSearch"
+            placeholder="Search teacher or email..."
+            oninput="filterPayments()"
+          >
+
+        </div>
+
+        <div class="table-wrap">
+
+          <table>
+
+            <thead>
+
+              <tr>
+                <th>Teacher</th>
+                <th>Email</th>
+                <th>Payment Method</th>
+                <th>Amount</th>
+                <th>Reference</th>
+                <th>Date</th>
+                <th>Status</th>
+                <th>Action</th>
+              </tr>
+
+            </thead>
+
+            <tbody id="paymentsTable">
+
+              <tr>
+                <td
+                  colspan="8"
+                  class="empty"
+                >
+                  No payment submissions yet.
+                </td>
+              </tr>
+
+            </tbody>
+
+          </table>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- TEACHERS -->
+
+    <section
+      id="teachersTab"
+      class="tab-content hidden"
+    >
+
+      <div class="panel">
+
+        <div class="panel-header">
+
+          <h2>
+            Registered Teachers
+          </h2>
+
+          <input
+            class="search"
+            id="teacherSearch"
+            placeholder="Search teacher..."
+            oninput="filterTeachers()"
+          >
+
+        </div>
+
+        <div class="table-wrap">
+
+          <table>
+
+            <thead>
+
+              <tr>
+                <th>Teacher</th>
+                <th>Email</th>
+                <th>Status</th>
+                <th>Subscription</th>
+                <th>Expiry</th>
+              </tr>
+
+            </thead>
+
+            <tbody id="teachersTable">
+
+              <tr>
+                <td
+                  colspan="5"
+                  class="empty"
+                >
+                  No teachers found.
+                </td>
+              </tr>
+
+            </tbody>
+
+          </table>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- SUBSCRIPTIONS -->
+
+    <section
+      id="subscriptionsTab"
+      class="tab-content hidden"
+    >
+
+      <div class="panel">
+
+        <div class="panel-header">
+
+          <h2>
+            Subscription Management
+          </h2>
+
+        </div>
+
+        <div class="table-wrap">
+
+          <table>
+
+            <thead>
+
+              <tr>
+                <th>Teacher</th>
+                <th>Email</th>
+                <th>Status</th>
+                <th>Start Date</th>
+                <th>Expiry Date</th>
+                <th>Action</th>
+              </tr>
+
+            </thead>
+
+            <tbody id="subscriptionsTable">
+
+              <tr>
+                <td
+                  colspan="6"
+                  class="empty"
+                >
+                  No subscription records yet.
+                </td>
+              </tr>
+
+            </tbody>
+
+          </table>
+
+        </div>
+
+      </div>
+
+    </section>
+
+  </main>
+
+</section>
+
+
+<!-- =========================
+     PAYMENT MODAL
+========================= -->
+
+<div
+  id="paymentModal"
+  class="modal hidden"
+  onclick="closeModalOutside(event)"
+>
+
+  <div
+    class="modal-box"
+    onclick="event.stopPropagation()"
+  >
+
+    <div class="modal-header">
+
+      <h2>
+        Payment Details
+      </h2>
+
+      <button
+        class="close"
+        onclick="closePaymentModal()"
+      >
+        ×
+      </button>
+
+    </div>
+
+    <div id="paymentDetails"></div>
+
+    <div class="modal-actions">
+
+      <button
+        class="btn verify"
+        id="modalVerifyBtn"
+      >
+        VERIFY PAYMENT
+      </button>
+
+      <button
+        class="btn reject"
+        id="modalRejectBtn"
+      >
+        REJECT PAYMENT
+      </button>
+
+    </div>
+
+  </div>
+
+</div>
+
+
+<div
+  id="toast"
+  class="toast hidden"
+></div>
+
+
+<script>
+
+/* =====================================================
+   SUPABASE CONFIGURATION
+===================================================== */
+
+const SUPABASE_URL =
+  'https://ifaptabszmvxgaltmrnh.supabase.co';
+
+const SUPABASE_PUBLISHABLE_KEY =
+  'sb_publishable_XWdNI0Jix2y_TGMVOAfYjA_bADlqGpq';
+
+const ADMIN_EMAIL =
+  'teacherdanyeal@gmail.com';
+
+
+/* =====================================================
+   IMPORTANT:
+   SEPARATE AUTH STORAGE FOR ADMIN PORTAL
+===================================================== */
+
+const supabaseClient =
+  window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_PUBLISHABLE_KEY,
+    {
+      auth:{
+        storageKey:'admin-management-portal-auth',
+        persistSession:true,
+        autoRefreshToken:true,
+        detectSessionInUrl:false
+      }
+    }
+  );
+
+/* =====================================================
+   TEACHER PORTAL PAYMENT DATABASE
+   The Teacher Portal submits payments to this project.
+   Keep the Admin Portal auth/database above unchanged.
+===================================================== */
+const PAYMENT_SUPABASE_URL =
+  'https://ifaptabszmvxgaltmrnh.supabase.co';
+
+const PAYMENT_SUPABASE_PUBLISHABLE_KEY =
+  'sb_publishable_XWdNI0Jix2y_TGMVOAfYjA_bADlqGpq';
+
+const paymentSupabaseClient =
+  window.supabase.createClient(
+    PAYMENT_SUPABASE_URL,
+    PAYMENT_SUPABASE_PUBLISHABLE_KEY,
+    {
+      auth:{
+        persistSession:false,
+        autoRefreshToken:false,
+        detectSessionInUrl:false
+      }
+    }
+  );
+
+
+/* =====================================================
+   DATA
+===================================================== */
+
+let paymentRecords = [];
+let teacherRecords = [];
+let subscriptionRecords = [];
+
+
+/* =====================================================
+   LOGIN
+===================================================== */
+
+async function adminLogin(){
+
+  const email =
+    document
+      .getElementById('loginEmail')
+      .value
+      .trim()
+      .toLowerCase();
+
+  const password =
+    document
+      .getElementById('loginPassword')
+      .value;
+
+  const error =
+    document
+      .getElementById('loginError');
+
+  const button =
+    document
+      .getElementById('loginButton');
+
+  error.textContent='';
+
+  if(!email || !password){
+
+    error.textContent =
+      'Please enter your email and password.';
+
+    return;
+  }
+
+  if(email !== ADMIN_EMAIL){
+
+    error.textContent =
+      'Access denied. Admin account only.';
+
+    return;
+  }
+
+  button.disabled=true;
+  button.textContent='LOGGING IN...';
+
+  try{
+
+    const {
+      data,
+      error:loginError
+    } =
+    await supabaseClient.auth.signInWithPassword({
+      email:email,
+      password:password
+    });
+
+    if(loginError){
+
+      console.error(
+        'Supabase login error:',
+        loginError
+      );
+
+      error.textContent =
+        loginError.message ||
+        'Unable to login.';
+
+      return;
+    }
+
+    if(!data || !data.user){
+
+      error.textContent =
+        'Unable to verify admin account.';
+
+      return;
+    }
+
+    if(
+      !data.user.email ||
+      data.user.email.toLowerCase() !==
+      ADMIN_EMAIL
+    ){
+
+      await supabaseClient.auth.signOut();
+
+      error.textContent =
+        'Access denied. Admin account only.';
+
+      return;
+    }
+
+    showAdminPortal(data.user);
+
+  }catch(err){
+
+    console.error(err);
+
+    error.textContent =
+      err?.message ||
+      'Unexpected login error.';
+
+  }finally{
+
+    button.disabled=false;
+    button.textContent='LOGIN';
+
+  }
+
+}
+
+
+/* =====================================================
+   SESSION
+===================================================== */
+
+async function checkAdminSession(){
+
+  try{
+
+    const {
+      data,
+      error
+    } =
+    await supabaseClient.auth.getSession();
+
+    if(error){
+
+      console.error(
+        'Session error:',
+        error
+      );
+
+      showLogin();
+      return;
+    }
+
+    const user =
+      data?.session?.user;
+
+    if(
+      user &&
+      user.email &&
+      user.email.toLowerCase() ===
+      ADMIN_EMAIL
+    ){
+
+      showAdminPortal(user);
+
+    }else{
+
+      showLogin();
+
+    }
+
+  }catch(err){
+
+    console.error(err);
+    showLogin();
+
+  }
+
+}
+
+
+/* =====================================================
+   SHOW LOGIN
+===================================================== */
+
+function showLogin(){
+
+  document
+    .getElementById('loginPage')
+    .classList.remove('hidden');
+
+  document
+    .getElementById('adminPage')
+    .classList.add('hidden');
+
+}
+
+
+/* =====================================================
+   SHOW ADMIN
+===================================================== */
+
+function showAdminPortal(user){
+
+  document
+    .getElementById('loginPage')
+    .classList.add('hidden');
+
+  document
+    .getElementById('adminPage')
+    .classList.remove('hidden');
+
+  document
+    .getElementById('adminEmailDisplay')
+    .textContent =
+    user.email || ADMIN_EMAIL;
+
+  loadAllData();
+
+}
+
+
+/* =====================================================
+   LOGOUT
+===================================================== */
+
+async function adminLogout(){
+
+  try{
+
+    await supabaseClient.auth.signOut();
+
+  }catch(err){
+
+    console.error(
+      'Logout error:',
+      err
+    );
+
+  }
+
+  try{ sessionStorage.removeItem(ADMIN_CACHE_KEY); }catch(e){}
+  paymentRecords=[];
+  teacherRecords=[];
+  subscriptionRecords=[];
+  showLogin();
+
+}
+
+
+/* =====================================================
+   TABS
+===================================================== */
+
+function showTab(tab,button){
+
+  document
+    .querySelectorAll('.tab-content')
+    .forEach(el =>
+      el.classList.add('hidden')
+    );
+
+  const section =
+    document.getElementById(
+      tab + 'Tab'
+    );
+
+  if(section){
+
+    section.classList.remove('hidden');
+
+  }
+
+  document
+    .querySelectorAll('.tab')
+    .forEach(el =>
+      el.classList.remove('active')
+    );
+
+  if(button){
+
+    button.classList.add('active');
+
+  }
+
+}
+
+
+function showTabById(tab){
+
+  const buttons =
+    [...document.querySelectorAll('.tab')];
+
+  let button=null;
+
+  if(tab === 'payments'){
+
+    button =
+      buttons.find(btn =>
+        btn.textContent
+          .toLowerCase()
+          .includes('payment')
+      );
+
+  }else{
+
+    button =
+      buttons.find(btn =>
+        btn.textContent
+          .toLowerCase()
+          .includes(tab)
+      );
+
+  }
+
+  showTab(tab,button);
+
+}
+
+
+/* =====================================================
+   LOAD ALL DATA
+===================================================== */
+
+const ADMIN_CACHE_KEY = 'admin-management-portal-cache-v1';
+
+function restoreCachedData(){
+  try{
+    const cached = sessionStorage.getItem(ADMIN_CACHE_KEY);
+    if(!cached) return false;
+    const parsed = JSON.parse(cached);
+    paymentRecords = Array.isArray(parsed.payments) ? parsed.payments : paymentRecords;
+    teacherRecords = Array.isArray(parsed.teachers) ? parsed.teachers : teacherRecords;
+    subscriptionRecords = Array.isArray(parsed.subscriptions) ? parsed.subscriptions : subscriptionRecords;
+    renderPayments();
+    renderTeachers();
+    renderSubscriptions();
+    updateDashboard();
+    return true;
+  }catch(err){
+    console.warn('Unable to restore cached admin data:', err);
+    return false;
+  }
+}
+
+function saveCachedData(){
+  try{
+    // Do not cache payment proof files/screenshots in browser storage.
+    const safePayments = paymentRecords.map(({proof_data, ...payment}) => payment);
+    sessionStorage.setItem(ADMIN_CACHE_KEY, JSON.stringify({
+      payments: safePayments,
+      teachers: teacherRecords,
+      subscriptions: subscriptionRecords,
+      savedAt: Date.now()
+    }));
+  }catch(err){
+    console.warn('Unable to cache admin data:', err);
+  }
+}
+
+async function loadAllData(){
+  // Show the last successful view immediately, then refresh from Supabase.
+  restoreCachedData();
+  await Promise.allSettled([
+    loadPayments(),
+    loadTeachers(),
+    loadSubscriptions()
+  ]);
+  updateDashboard();
+  saveCachedData();
+}
+
+
+/* =====================================================
+   PAYMENTS
+===================================================== */
+
+function normalizePaymentRecord(row){
+
+  let noteData={};
+
+  try{
+    noteData = row && row.notes ? JSON.parse(row.notes) : {};
+  }catch(e){
+    noteData = {note:String(row?.notes || '')};
+  }
+
+  return {
+    ...row,
+    teacher_name: row?.teacher_name || noteData.teacher_name || noteData.name || row?.email || noteData.email || '—',
+    teacher_email: row?.teacher_email || row?.email || noteData.email || '—',
+    payment_method: row?.payment_method || '—',
+    amount: row?.amount ?? 69,
+    reference_number: row?.reference_number || '—',
+    created_at: row?.created_at || row?.payment_date || null,
+    status: row?.status || 'PENDING',
+    proof_name: row?.proof_name || noteData.proof_name || '',
+    proof_data: row?.proof_data || noteData.proof_data || '',
+    payment_note: row?.payment_note || noteData.note || ''
+  };
+}
+
+async function loadPayments(){
+
+  const {
+    data,
+    error
+  } =
+  await paymentSupabaseClient
+    .from('payments')
+    .select('*')
+    .order('created_at',{
+      ascending:false
+    });
+
+  if(error){
+
+    console.error('Teacher Portal payments error:',error);
+
+    // Keep the last known records visible if a request temporarily fails.
+    renderPayments();
+
+    showToast('Unable to refresh payments. Showing the last loaded records.');
+    return;
+  }
+
+  paymentRecords=(data || []).map(normalizePaymentRecord);
+  renderPayments();
+  saveCachedData();
+
+}
+
+
+function renderPayments(){
+
+  const table =
+    document.getElementById(
+      'paymentsTable'
+    );
+
+  const recent =
+    document.getElementById(
+      'recentPaymentsTable'
+    );
+
+  if(!paymentRecords.length){
+    table.innerHTML=`
+      <tr><td colspan="8" class="empty">No payment submissions yet.</td></tr>
+    `;
+    recent.innerHTML=`
+      <tr><td colspan="8" class="empty">No pending payment submissions.</td></tr>
+    `;
+    return;
+  }
+
+
+  table.innerHTML =
+    paymentRecords
+      .map(payment => {
+
+        const status =
+          String(
+            payment.status || 'PENDING'
+          ).toUpperCase();
+
+        return `
+          <tr>
+
+            <td>
+              ${escapeHtml(
+                payment.teacher_name || '—'
+              )}
+            </td>
+
+            <td>
+              ${escapeHtml(
+                payment.teacher_email || '—'
+              )}
+            </td>
+
+            <td>
+              ${escapeHtml(
+                payment.payment_method || '—'
+              )}
+            </td>
+
+            <td>
+              ₱${escapeHtml(
+                payment.amount || '99'
+              )}
+            </td>
+
+            <td>
+              ${escapeHtml(
+                payment.reference_number || '—'
+              )}
+            </td>
+
+            <td>
+              ${formatDate(
+                payment.created_at
+              )}
+            </td>
+
+            <td>
+              <span class="badge ${statusClass(status)}">
+                ${status}
+              </span>
+            </td>
+
+            <td>
+
+              <div class="action-group">
+
+                <button
+                  class="btn view"
+                  onclick="viewPayment('${payment.id}')"
+                >
+                  VIEW
+                </button>
+
+                ${
+                  status === 'PENDING'
+                  ? `
+                    <button
+                      class="btn verify"
+                      onclick="verifyPayment('${payment.id}')"
+                    >
+                      VERIFY
+                    </button>
+
+                    <button
+                      class="btn reject"
+                      onclick="rejectPayment('${payment.id}')"
+                    >
+                      REJECT
+                    </button>
+                  `
+                  : ''
+                }
+
+              </div>
+
+            </td>
+
+          </tr>
+        `;
+
+      })
+      .join('');
+
+
+  // Dashboard is an action queue: only payments still awaiting review appear here.
+  const pendingPayments = paymentRecords.filter(payment =>
+    String(payment.status || 'PENDING').toUpperCase() === 'PENDING'
+  );
+
+  recent.innerHTML = pendingPayments.length
+    ? pendingPayments.slice(0, 10).map(payment => `
+        <tr>
+          <td>${escapeHtml(payment.teacher_name || '—')}</td>
+          <td>${escapeHtml(payment.teacher_email || '—')}</td>
+          <td>${escapeHtml(payment.payment_method || '—')}</td>
+          <td>₱${escapeHtml(payment.amount ?? '69')}</td>
+          <td>${escapeHtml(payment.reference_number || '—')}</td>
+          <td>${formatDate(payment.created_at)}</td>
+          <td><span class="badge pending">PENDING</span></td>
+          <td><div class="action-group">
+            <button class="btn view" onclick="viewPayment('${escapeHtml(payment.id)}')">VIEW DETAILS</button>
+          </div></td>
+        </tr>
+      `).join('')
+    : `<tr><td colspan="8" class="empty">All submitted payments have been reviewed. No pending payments.</td></tr>`;
+
+}
+
+
+/* =====================================================
+   VERIFY PAYMENT
+===================================================== */
+
+async function verifyPayment(id){
+
+  const payment =
+    paymentRecords.find(
+      p =>
+        String(p.id) ===
+        String(id)
+    );
+
+  if(!payment) return;
+
+  const confirmed =
+    confirm(
+      `Verify payment from ${
+        payment.teacher_name ||
+        payment.teacher_email ||
+        'this teacher'
+      }?`
+    );
+
+  if(!confirmed) return;
+
+
+  const now =
+    new Date();
+
+  const expiry =
+    new Date(now);
+
+  expiry.setMonth(
+    expiry.getMonth()+1
+  );
+
+
+  const {
+    error
+  } =
+  await paymentSupabaseClient
+    .from('payments')
+    .update({
+      status:'VERIFIED'
+    })
+    .eq('id',id);
+
+
+  if(error){
+
+    showToast(
+      'Unable to verify payment: ' +
+      error.message
+    );
+
+    return;
+  }
+
+
+  showToast(
+    'Payment verified successfully.'
+  );
+
+  closePaymentModal();
+
+  await loadAllData();
+
+}
+
+
+/* =====================================================
+   REJECT PAYMENT
+===================================================== */
+
+async function rejectPayment(id){
+
+  const payment =
+    paymentRecords.find(
+      p =>
+        String(p.id) ===
+        String(id)
+    );
+
+  if(!payment) return;
+
+  const confirmed =
+    confirm(
+      `Reject payment from ${
+        payment.teacher_name ||
+        payment.teacher_email ||
+        'this teacher'
+      }?`
+    );
+
+  if(!confirmed) return;
+
+
+  const {
+    error
+  } =
+  await paymentSupabaseClient
+    .from('payments')
+    .update({
+      status:'REJECTED'
+    })
+    .eq('id',id);
+
+
+  if(error){
+
+    showToast(
+      'Unable to reject payment: ' +
+      error.message
+    );
+
+    return;
+  }
+
+
+  showToast(
+    'Payment rejected.'
+  );
+
+  closePaymentModal();
+
+  await loadAllData();
+
+}
+
+
+/* =====================================================
+   VIEW PAYMENT
+===================================================== */
+
+function viewPayment(id){
+
+  const payment =
+    paymentRecords.find(
+      p =>
+        String(p.id) ===
+        String(id)
+    );
+
+  if(!payment) return;
+
+
+  const status =
+    String(
+      payment.status || 'PENDING'
+    ).toUpperCase();
+
+
+  document.getElementById(
+    'paymentDetails'
+  ).innerHTML=`
+
+    <div class="detail-row">
+
+      <strong>
+        Teacher
+      </strong>
+
+      ${escapeHtml(
+        payment.teacher_name || '—'
+      )}
+
+    </div>
+
+
+    <div class="detail-row">
+
+      <strong>
+        Email
+      </strong>
+
+      ${escapeHtml(
+        payment.teacher_email || '—'
+      )}
+
+    </div>
+
+
+    <div class="detail-row">
+
+      <strong>
+        Payment Method
+      </strong>
+
+      ${escapeHtml(
+        payment.payment_method || '—'
+      )}
+
+    </div>
+
+
+    <div class="detail-row">
+
+      <strong>
+        Amount
+      </strong>
+
+      ₱${escapeHtml(
+        payment.amount || '99'
+      )}
+
+    </div>
+
+
+    <div class="detail-row">
+
+      <strong>
+        Reference Number
+      </strong>
+
+      ${escapeHtml(
+        payment.reference_number || '—'
+      )}
+
+    </div>
+
+
+    <div class="detail-row">
+
+      <strong>
+        Date Submitted
+      </strong>
+
+      ${formatDate(
+        payment.created_at
+      )}
+
+    </div>
+
+
+    <div class="detail-row">
+
+      <strong>
+        Status
+      </strong>
+
+      <span class="badge ${statusClass(status)}">
+        ${status}
+      </span>
+
+    </div>
+
+    <div class="detail-row">
+
+      <strong>
+        Payment Proof
+      </strong>
+
+      ${payment.proof_data
+        ? (String(payment.proof_name || '').toLowerCase().endsWith('.pdf')
+          ? `<a href="${escapeHtml(payment.proof_data)}" target="_blank" rel="noopener">VIEW PDF PROOF</a>`
+          : String(payment.proof_data).startsWith('data:image/')
+            ? `<img src="${escapeHtml(payment.proof_data)}" alt="Payment proof" style="max-width:100%;max-height:420px;border:1px solid #ddd;border-radius:10px;display:block;margin-top:8px;">`
+            : `<span>Proof uploaded: ${escapeHtml(payment.proof_name || 'file')}</span>`
+        )
+        : 'No proof attached'}
+
+    </div>
+
+    ${payment.payment_note ? `
+      <div class="detail-row">
+        <strong>Note</strong>
+        ${escapeHtml(payment.payment_note)}
+      </div>
+    ` : ''}
+
+  `;
+
+
+  const verifyBtn =
+    document.getElementById(
+      'modalVerifyBtn'
+    );
+
+  const rejectBtn =
+    document.getElementById(
+      'modalRejectBtn'
+    );
+
+
+  if(status === 'PENDING'){
+
+    verifyBtn.classList.remove(
+      'hidden'
+    );
+
+    rejectBtn.classList.remove(
+      'hidden'
+    );
+
+    verifyBtn.onclick =
+      () => verifyPayment(id);
+
+    rejectBtn.onclick =
+      () => rejectPayment(id);
+
+  }else{
+
+    verifyBtn.classList.add(
+      'hidden'
+    );
+
+    rejectBtn.classList.add(
+      'hidden'
+    );
+
+  }
+
+
+  document
+    .getElementById('paymentModal')
+    .classList.remove('hidden');
+
+}
+
+
+function closePaymentModal(){
+
+  document
+    .getElementById('paymentModal')
+    .classList.add('hidden');
+
+}
+
+
+function closeModalOutside(event){
+
+  if(
+    event.target.id ===
+    'paymentModal'
+  ){
+
+    closePaymentModal();
+
+  }
+
+}
+
+
+/* =====================================================
+   TEACHERS
+===================================================== */
+
+async function loadTeachers(){
+
+  const {
+    data,
+    error
+  } =
+  await supabaseClient
+    .from('teacher_profiles')
+    .select('*')
+    .order('created_at',{
+      ascending:false
+    });
+
+
+  if(error){
+
+    console.log(
+      'Teacher table:',
+      error.message
+    );
+
+    // Preserve the last known list during a temporary Supabase error.
+    renderTeachers();
+
+    return;
+  }
+
+
+  teacherRecords=data || [];
+
+  renderTeachers();
+  saveCachedData();
+
+}
+
+
+function renderTeachers(){
+
+  const table =
+    document.getElementById(
+      'teachersTable'
+    );
+
+
+  if(!teacherRecords.length){
+
+    table.innerHTML=`
+      <tr>
+        <td colspan="5" class="empty">
+          No teachers found yet.
+        </td>
+      </tr>
+    `;
+
+    return;
+  }
+
+
+  table.innerHTML =
+    teacherRecords
+      .map(teacher => {
+
+        const status =
+          String(
+            teacher.subscription_status ||
+            teacher.status ||
+            'INACTIVE'
+          ).toUpperCase();
+
+
+        return `
+          <tr>
+
+            <td>
+              ${escapeHtml(
+                teacher.full_name ||
+                teacher.teacher_name ||
+                '—'
+              )}
+            </td>
+
+            <td>
+              ${escapeHtml(
+                teacher.email ||
+                '—'
+              )}
+            </td>
+
+            <td>
+
+              <span class="badge ${statusClass(status)}">
+                ${status}
+              </span>
+
+            </td>
+
+            <td>
+              ${escapeHtml(
+                teacher.subscription_status ||
+                '—'
+              )}
+            </td>
+
+            <td>
+              ${formatDate(
+                teacher.subscription_expiry
+              )}
+            </td>
+
+          </tr>
+        `;
+
+      })
+      .join('');
+
+}
+
+
+/* =====================================================
+   SUBSCRIPTIONS
+===================================================== */
+
+async function loadSubscriptions(){
+
+  const {
+    data,
+    error
+  } =
+  await supabaseClient
+    .from('teacher_subscriptions')
+    .select('*')
+    .order('subscription_expiry',{
+      ascending:true
+    });
+
+
+  if(error){
+
+    console.log(
+      'Subscription table:',
+      error.message
+    );
+
+    // Preserve the last known list during a temporary Supabase error.
+    renderSubscriptions();
+
+    return;
+  }
+
+
+  subscriptionRecords=data || [];
+
+  renderSubscriptions();
+  saveCachedData();
+
+}
+
+
+function renderSubscriptions(){
+
+  const table =
+    document.getElementById(
+      'subscriptionsTable'
+    );
+
+
+  if(!subscriptionRecords.length){
+
+    table.innerHTML=`
+      <tr>
+        <td colspan="6" class="empty">
+          No subscription records yet.
+        </td>
+      </tr>
+    `;
+
+    return;
+  }
+
+
+  table.innerHTML =
+    subscriptionRecords
+      .map(sub => {
+
+        const status =
+          getSubscriptionStatus(
+            sub.subscription_expiry,
+            sub.status
+          );
+
+
+        return `
+          <tr>
+
+            <td>
+              ${escapeHtml(
+                sub.teacher_name || '—'
+              )}
+            </td>
+
+            <td>
+              ${escapeHtml(
+                sub.teacher_email || '—'
+              )}
+            </td>
+
+            <td>
+
+              <span class="badge ${statusClass(status)}">
+                ${status}
+              </span>
+
+            </td>
+
+            <td>
+              ${formatDate(
+                sub.subscription_start
+              )}
+            </td>
+
+            <td>
+              ${formatDate(
+                sub.subscription_expiry
+              )}
+            </td>
+
+            <td>
+
+              <button
+                class="btn view"
+                onclick="viewSubscription('${sub.id}')"
+              >
+                VIEW
+              </button>
+
+            </td>
+
+          </tr>
+        `;
+
+      })
+      .join('');
+
+}
+
+
+/* =====================================================
+   DASHBOARD
+===================================================== */
+
+function updateDashboard(){
+
+  document.getElementById(
+    'totalTeachers'
+  ).textContent =
+    teacherRecords.length;
+
+
+  document.getElementById(
+    'pendingPayments'
+  ).textContent =
+    paymentRecords.filter(
+      p =>
+        String(
+          p.status || 'PENDING'
+        ).toUpperCase() ===
+        'PENDING'
+    ).length;
+
+
+  const active =
+    subscriptionRecords.filter(
+      s =>
+        getSubscriptionStatus(
+          s.subscription_expiry,
+          s.status
+        ) === 'ACTIVE'
+    ).length;
+
+
+  document.getElementById(
+    'activeSubscriptions'
+  ).textContent =
+    active;
+
+
+  const expiring =
+    subscriptionRecords.filter(
+      s =>
+        getSubscriptionStatus(
+          s.subscription_expiry,
+          s.status
+        ) === 'EXPIRING SOON'
+    ).length;
+
+
+  document.getElementById(
+    'expiringSoon'
+  ).textContent =
+    expiring;
+
+
+  const expired =
+    subscriptionRecords.filter(
+      s =>
+        getSubscriptionStatus(
+          s.subscription_expiry,
+          s.status
+        ) === 'EXPIRED'
+    ).length;
+
+
+  document.getElementById(
+    'expiredSubscriptions'
+  ).textContent =
+    expired;
+
+
+}
+
+
+/* =====================================================
+   SUBSCRIPTION STATUS
+===================================================== */
+
+function getSubscriptionStatus(
+  expiry,
+  storedStatus
+){
+
+  if(
+    storedStatus &&
+    String(storedStatus)
+      .toUpperCase() ===
+    'CANCELLED'
+  ){
+
+    return 'CANCELLED';
+
+  }
+
+
+  if(!expiry){
+
+    return String(
+      storedStatus ||
+      'INACTIVE'
+    ).toUpperCase();
+
+  }
+
+
+  // If Supabase stores a date without a time (YYYY-MM-DD), keep it active
+  // through that calendar day and mark expired after 11:59:59 PM local time.
+  let expiryDate;
+  if(typeof expiry === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(expiry)){
+    const [year, month, day] = expiry.split('-').map(Number);
+    expiryDate = new Date(year, month - 1, day, 23, 59, 59, 999);
+  }else{
+    expiryDate = new Date(expiry);
+  }
+
+  const now =
+    new Date();
+
+
+  if(
+    expiryDate.getTime() <=
+    now.getTime()
+  ){
+
+    return 'EXPIRED';
+
+  }
+
+
+  const days =
+    Math.ceil(
+      (
+        expiryDate.getTime() -
+        now.getTime()
+      ) /
+      86400000
+    );
+
+
+  if(days <= 7){
+
+    return 'EXPIRING SOON';
+
+  }
+
+
+  return 'ACTIVE';
+
+}
+
+
+/* =====================================================
+   STATUS CLASS
+===================================================== */
+
+function statusClass(status){
+
+  const value =
+    String(status)
+      .toLowerCase();
+
+
+  if(value === 'active')
+    return 'active';
+
+
+  if(value === 'verified')
+    return 'verified';
+
+
+  if(value === 'pending')
+    return 'pending';
+
+
+  if(value === 'rejected')
+    return 'rejected';
+
+
+  if(
+    value === 'expired' ||
+    value === 'cancelled'
+  ){
+
+    return 'expired';
+
+  }
+
+
+  if(value === 'expiring soon')
+    return 'warning';
+
+
+  return 'pending';
+
+}
+
+
+/* =====================================================
+   SUBSCRIPTION ALERTS
+===================================================== */
+
+function renderSubscriptionAlerts(){
+
+  const box =
+    document.getElementById(
+      'subscriptionAlerts'
+    );
+
+
+  const alerts =
+    subscriptionRecords
+      .map(sub => {
+
+        const status =
+          getSubscriptionStatus(
+            sub.subscription_expiry,
+            sub.status
+          );
+
+
+        if(
+          status !== 'EXPIRING SOON' &&
+          status !== 'EXPIRED'
+        ){
+
+          return null;
+
+        }
+
+
+        return `
+          <div
+            style="
+              padding:15px;
+              border-radius:10px;
+              background:${
+                status === 'EXPIRED'
+                ? '#fee2e2'
+                : '#fef3c7'
+              };
+              margin-bottom:10px;
+            "
+          >
+
+            <strong>
+              ${escapeHtml(
+                sub.teacher_name ||
+                sub.teacher_email ||
+                'Teacher'
+              )}
+            </strong>
+
+            — Subscription
+
+            <strong>
+              ${status}
+            </strong>
+
+            <br>
+
+            Expiry:
+            ${formatDate(
+              sub.subscription_expiry
+            )}
+
+          </div>
+        `;
+
+      })
+      .filter(Boolean);
+
+
+  box.innerHTML =
+    alerts.length
+      ? alerts.join('')
+      : `
+        <div class="empty">
+          No subscription alerts.
+        </div>
+      `;
+
+}
+
+
+/* =====================================================
+   SEARCH PAYMENTS
+===================================================== */
+
+function filterPayments(){
+
+  const query =
+    document
+      .getElementById('paymentSearch')
+      .value
+      .toLowerCase()
+      .trim();
+
+
+  document
+    .querySelectorAll(
+      '#paymentsTable tr'
+    )
+    .forEach(row => {
+
+      row.style.display =
+        row.textContent
+          .toLowerCase()
+          .includes(query)
+          ? ''
+          : 'none';
+
+    });
+
+}
+
+
+/* =====================================================
+   SEARCH TEACHERS
+===================================================== */
+
+function filterTeachers(){
+
+  const query =
+    document
+      .getElementById('teacherSearch')
+      .value
+      .toLowerCase()
+      .trim();
+
+
+  document
+    .querySelectorAll(
+      '#teachersTable tr'
+    )
+    .forEach(row => {
+
+      row.style.display =
+        row.textContent
+          .toLowerCase()
+          .includes(query)
+          ? ''
+          : 'none';
+
+    });
+
+}
+
+
+/* =====================================================
+   HELPERS
+===================================================== */
+
+function formatDate(value){
+
+  if(!value)
+    return '—';
+
+
+  const date =
+    new Date(value);
+
+
+  if(
+    Number.isNaN(
+      date.getTime()
+    )
+  ){
+
+    return '—';
+
+  }
+
+
+  return date.toLocaleString(
+    undefined,
+    {
+      year:'numeric',
+      month:'short',
+      day:'numeric',
+      hour:'numeric',
+      minute:'2-digit'
+    }
+  );
+
+}
+
+
+function escapeHtml(value){
+
+  return String(
+    value ?? ''
+  )
+  .replace(/&/g,'&amp;')
+  .replace(/</g,'&lt;')
+  .replace(/>/g,'&gt;')
+  .replace(/"/g,'&quot;')
+  .replace(/'/g,'&#039;');
+
+}
+
+
+function showToast(message){
+
+  const toast =
+    document.getElementById(
+      'toast'
+    );
+
+
+  toast.textContent =
+    message;
+
+
+  toast.classList.remove(
+    'hidden'
+  );
+
+
+  setTimeout(() => {
+
+    toast.classList.add(
+      'hidden'
+    );
+
+  },3500);
+
+}
+
+
+/* =====================================================
+   VIEW SUBSCRIPTION
+===================================================== */
+
+function viewSubscription(id){
+
+  const sub =
+    subscriptionRecords.find(
+      s =>
+        String(s.id) ===
+        String(id)
+    );
+
+
+  if(!sub) return;
+
+
+  alert(
+    `Teacher: ${
+      sub.teacher_name || '—'
+    }\n\n` +
+
+    `Email: ${
+      sub.teacher_email || '—'
+    }\n\n` +
+
+    `Status: ${
+      getSubscriptionStatus(
+        sub.subscription_expiry,
+        sub.status
+      )
+    }\n\n` +
+
+    `Start: ${
+      formatDate(
+        sub.subscription_start
+      )
+    }\n\n` +
+
+    `Expiry: ${
+      formatDate(
+        sub.subscription_expiry
+      )
+    }`
+  );
+
+}
+
+
+/* =====================================================
+   AUTH STATE
+===================================================== */
+
+supabaseClient.auth.onAuthStateChange(
+  (event,session) => {
+
+    const user =
+      session?.user;
+
+
+    if(
+      user &&
+      user.email &&
+      user.email.toLowerCase() ===
+      ADMIN_EMAIL
+    ){
+
+      showAdminPortal(user);
+
+      return;
+    }
+
+
+    if(event === 'SIGNED_OUT'){
+      try{ sessionStorage.removeItem(ADMIN_CACHE_KEY); }catch(e){}
+      paymentRecords=[];
+      teacherRecords=[];
+      subscriptionRecords=[];
+      showLogin();
+    }
+
+  }
+);
+
+
+/* =====================================================
+   START
+===================================================== */
+
+checkAdminSession();
+
+
+
+/* Auto-refresh payment submissions so new teacher requests appear without re-login. */
+if (!window.__teacherPaymentAutoRefreshStarted) {
+  window.__teacherPaymentAutoRefreshStarted = true;
+  window.setInterval(async () => {
+    try {
+      const loginPage = document.getElementById('loginPage');
+      const loginVisible = loginPage && getComputedStyle(loginPage).display !== 'none' && loginPage.offsetParent !== null;
+      if (loginVisible) return;
+      if (typeof paymentSupabaseClient !== 'undefined' && paymentSupabaseClient) {
+        await loadPayments();
+      }
+    } catch (err) {
+      console.warn('Background payment refresh failed:', err);
+    }
+  }, 15000);
+}
+
+</script>
+
+</body>
+</html>
