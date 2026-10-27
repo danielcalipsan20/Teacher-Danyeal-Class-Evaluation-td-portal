@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Teacher Profile — Sample Preview</title>
+<style>
+:root{--navy:#15324b;--blue:#176b87;--cyan:#e8f6f8;--ink:#203243;--muted:#647789;--line:#e3ebf0;--bg:#f3f7fa;--white:#fff;--gold:#d7a746}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);font-family:Inter,Segoe UI,Arial,sans-serif;color:var(--ink);line-height:1.5}
+.topbar{background:var(--navy);color:#fff;padding:16px 5vw;display:flex;justify-content:space-between;align-items:center;gap:16px}
+.brand{font-weight:800;letter-spacing:.2px}.brand small{display:block;font-size:11px;font-weight:500;opacity:.75;letter-spacing:1.4px;text-transform:uppercase}
+.top-actions{display:flex;gap:10px;align-items:center;flex-wrap:wrap}.btn{border:0;border-radius:10px;padding:11px 15px;font-weight:700;cursor:pointer;font-size:13px}.btn-primary{background:#d8f3f5;color:#12384a}.btn-outline{background:transparent;border:1px solid #ffffff66;color:#fff}
+.wrap{max-width:1050px;margin:30px auto;padding:0 20px 50px}.sample-note{background:#fff8e8;border:1px solid #f1dba7;color:#6d5420;padding:12px 15px;border-radius:12px;font-size:13px;margin-bottom:18px}
+.hero{background:linear-gradient(120deg,#12344c,#176b87);border-radius:20px;color:#fff;padding:30px;display:grid;grid-template-columns:160px 1fr;gap:25px;align-items:center;box-shadow:0 10px 30px #18374b12}
+.avatar{width:150px;height:150px;border-radius:22px;background:#d8edf0;border:4px solid #ffffff88;display:flex;align-items:center;justify-content:center;font-size:52px;overflow:hidden}
+.avatar img{width:100%;height:100%;object-fit:cover}.eyebrow{font-size:11px;text-transform:uppercase;letter-spacing:1.6px;opacity:.75;font-weight:800}.hero h1{font-size:32px;margin:5px 0 3px;line-height:1.15}.role{font-size:15px;color:#d9f2f5}.tagrow{display:flex;gap:8px;flex-wrap:wrap;margin-top:15px}.tag{background:#ffffff1c;border:1px solid #ffffff35;border-radius:99px;padding:6px 10px;font-size:12px}
+.layout{display:grid;grid-template-columns:1.25fr .75fr;gap:18px;margin-top:18px}.stack{display:grid;gap:18px;align-content:start}.card{background:var(--white);border:1px solid var(--line);border-radius:17px;padding:22px;box-shadow:0 5px 18px #1b3c5010}.cardhead{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:13px}.card h2{font-size:17px;margin:0;color:var(--navy)}.mini{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:1px;color:var(--blue);background:var(--cyan);padding:5px 8px;border-radius:7px}
+p{margin:0;color:#526575;font-size:14px}.video{background:#142d40;border-radius:13px;min-height:185px;display:flex;flex-direction:column;align-items:center;justify-content:center;color:#fff;text-align:center;padding:20px;position:relative;overflow:hidden}.video:before{content:"";position:absolute;width:250px;height:250px;border:1px solid #ffffff17;border-radius:50%;left:-70px;top:-120px}.play{width:54px;height:54px;background:#fff;color:#176b87;border-radius:50%;display:grid;place-items:center;font-size:21px;padding-left:4px;margin-bottom:10px}.video strong{font-size:14px}.video span{font-size:12px;opacity:.75;margin-top:4px}
+.resume-row{display:flex;align-items:center;gap:13px;padding:13px;border:1px solid var(--line);border-radius:12px}.fileicon{width:44px;height:48px;border-radius:9px;background:#fff0ed;color:#b84a38;display:grid;place-items:center;font-weight:900;font-size:12px}.fileinfo{flex:1}.fileinfo strong{display:block;font-size:13px}.fileinfo small{font-size:11px;color:var(--muted)}.link{color:var(--blue);font-size:12px;font-weight:800;text-decoration:none;white-space:nowrap}
+.cert{display:flex;gap:12px;padding:13px 0;border-bottom:1px solid var(--line);align-items:flex-start}.cert:last-child{border-bottom:0;padding-bottom:0}.certicon{width:38px;height:38px;border-radius:10px;background:#fff7e5;color:#9b741c;display:grid;place-items:center;flex-shrink:0}.cert strong{font-size:13px;display:block}.cert small{font-size:12px;color:var(--muted)}
+.info{display:grid;grid-template-columns:1fr 1fr;gap:14px}.info div{padding:12px;background:#f7fafc;border-radius:10px}.info small{display:block;color:var(--muted);font-size:11px;margin-bottom:3px}.info strong{font-size:13px}
+.footer{text-align:center;color:#7b8b99;font-size:11px;margin-top:22px}
+.toast{position:fixed;bottom:22px;left:50%;transform:translateX(-50%);background:#173a4e;color:#fff;padding:12px 18px;border-radius:12px;box-shadow:0 8px 24px #0002;display:none;font-size:13px;z-index:5}.toast.show{display:block}
+@media(max-width:720px){.topbar{align-items:flex-start;flex-direction:column}.hero{grid-template-columns:1fr;text-align:center;padding:22px}.avatar{margin:auto;width:125px;height:125px}.tagrow{justify-content:center}.layout{grid-template-columns:1fr}.hero h1{font-size:27px}.card{padding:18px}}
+</style>
+</head>
+<body>
+<header class="topbar">
+  <div class="brand">TEACHER MANAGEMENT PORTAL<small>Teacher Profile · Sample Preview</small></div>
+  <div class="top-actions">
+    <button class="btn btn-outline" onclick="window.print()">Print profile</button>
+    <button class="btn btn-primary" onclick="copyProfile()">Copy profile link ↗</button>
+  </div>
+</header>
+<main class="wrap">
+  <div class="sample-note"><strong>Sample preview only.</strong> This is an example of what a parent could see from a shared teacher-profile link. The details below are sample content and are not a live public profile yet.</div>
+  <section class="hero">
+    <div class="avatar" aria-label="Sample profile picture">👨🏻‍🏫</div>
+    <div>
+      <div class="eyebrow">Meet your teacher</div>
+      <h1>Teacher Danyeal</h1>
+      <div class="role">English Teacher · Online Classes</div>
+      <div class="tagrow"><span class="tag">✓ Teacher profile</span><span class="tag">English for young learners</span><span class="tag">Online learning</span></div>
+    </div>
+  </section>
+  <section class="layout">
+    <div class="stack">
+      <article class="card">
+        <div class="cardhead"><h2>Self Introduction</h2><span class="mini">Video</span></div>
+        <div class="video"><div class="play">▶</div><strong>Teacher's Introduction Video</strong><span>Parents can click to watch the teacher introduce himself.</span></div>
+        <p style="margin-top:12px">Hello! My name is Teacher Danyeal. I enjoy helping students build confidence in English through friendly, engaging, and supportive lessons. I look forward to learning with you!</p>
+      </article>
+      <article class="card">
+        <div class="cardhead"><h2>Resume</h2><span class="mini">PDF</span></div>
+        <div class="resume-row"><div class="fileicon">PDF</div><div class="fileinfo"><strong>Teacher_Danyeal_Resume.pdf</strong><small>Teaching background and professional experience</small></div><a class="link" href="#" onclick="event.preventDefault();toast('Sample only: resume file has not been attached yet.')">View resume ↗</a></div>
+      </article>
+      <article class="card">
+        <div class="cardhead"><h2>About My Teaching</h2><span class="mini">Overview</span></div>
+        <p>My goal is to create a positive learning space where students feel comfortable speaking, asking questions, and practicing English at their own pace. I encourage participation and celebrate each student's progress.</p>
+      </article>
+    </div>
+    <div class="stack">
+      <article class="card">
+        <div class="cardhead"><h2>Teacher Information</h2><span class="mini">Profile</span></div>
+        <div class="info">
+          <div><small>Teaching subject</small><strong>English</strong></div>
+          <div><small>Class format</small><strong>Online</strong></div>
+          <div><small>Student level</small><strong>Beginner to Junior</strong></div>
+          <div><small>Teaching style</small><strong>Friendly & interactive</strong></div>
+        </div>
+      </article>
+      <article class="card">
+        <div class="cardhead"><h2>Certifications</h2><span class="mini">Credentials</span></div>
+        <div class="cert"><div class="certicon">✦</div><div><strong>Teaching Certificate</strong><small>Certificate title and issuing organization</small></div></div>
+        <div class="cert"><div class="certicon">✦</div><div><strong>English Proficiency Certificate</strong><small>Certificate title and year issued</small></div></div>
+        <div class="cert"><div class="certicon">✦</div><div><strong>Additional Training</strong><small>Relevant workshop or professional development</small></div></div>
+      </article>
+      <article class="card">
+        <div class="cardhead"><h2>Contact / Booking</h2></div>
+        <p>For questions about classes, parents can contact the teacher through the official contact method shared by the school or teacher.</p>
+      </article>
+    </div>
+  </section>
+  <div class="footer">Teacher Profile · Parent-facing sample layout · Only information intentionally shared by the teacher should appear here.</div>
+</main>
+<div class="toast" id="toast"></div>
+<script>
+function toast(message){const el=document.getElementById('toast');el.textContent=message;el.classList.add('show');setTimeout(()=>el.classList.remove('show'),2800)}
+async function copyProfile(){
+ const sampleLink=window.location.href;
+ try{await navigator.clipboard.writeText(sampleLink);toast('Sample page link copied. This link works for your current file only.')}
+ catch(e){const ta=document.createElement('textarea');ta.value=sampleLink;document.body.appendChild(ta);ta.select();document.execCommand('copy');ta.remove();toast('Sample page link copied. This link works for your current file only.')}
+}
+</script>
+</body>
+</html>
